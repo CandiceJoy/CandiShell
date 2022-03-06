@@ -105,7 +105,7 @@ export ARCHFLAGS="-arch x86_64"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias exit="tmux detach"
+alias exit="tmux detach; exit"
 alias ls="exa"
 alias cls="clear"
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
