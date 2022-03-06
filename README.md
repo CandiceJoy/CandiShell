@@ -3,7 +3,7 @@
 git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell; npm --prefix ~/candishell run-script run
 ```
 
-##Update
+## Update
 ```
 wget -O ~/.zshrc https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.zshrc
 wget -O ~/.tmux.conf https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.tmux.conf
