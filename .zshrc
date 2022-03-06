@@ -76,7 +76,7 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-interactive-cd lpass autojump colored-man-pages colorize command-not-found emacs nanoc pm2 safe-paste screen tmux)
 
-export ZSH_TMUX_AUTOSTART="true"
+export ZSH_TMUX_AUTOSTART="false"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -107,6 +107,7 @@ export ARCHFLAGS="-arch x86_64"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias exit="tmux detach"
 alias ls="exa"
+alias cls="clear"
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
