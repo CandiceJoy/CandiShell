@@ -1,6 +1,7 @@
 import fs        from "fs";
 import exec from "child_process";
 import os        from "os";
+import paths from "paths";
 
 const mac = os.type().includes("Darwin");
 console.log("OS: " + (mac) ? "Mac" : "Linux");
@@ -95,10 +96,24 @@ const prereqs = [{
 	install:"git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 }];
 
+checkConfigs();
 processPrereqs();
 createConfigs();
 tmuxRefresh();
 zshRefresh();
+
+function checkConfigs()
+{
+	if( !fs.existsSync(fixPath("~/.zshrc")))
+	{
+		fs.cpSync(paths.join(__dirname,".zshrc"), fixPath("~/.zshrc"));
+	}
+
+	if( !fs.existsSync(fixPath("~/.tmux.conf")))
+	{
+		fs.cpSync(paths.join(__dirname,".zshrc"),fixPath("~/.tmux.conf"));
+	}
+}
 
 function processPrereqs()
 {
