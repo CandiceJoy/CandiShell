@@ -5,7 +5,9 @@ const fs = require("fs");
 const exec = require("child_process");
 const os = require("os");
 const paths = require("path");
-const __dirname = paths.dirName;
+const url = require("url");
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = paths.dirname(__filename)
 
 const mac = os.type().includes("Darwin");
 console.log("OS: " + (mac) ? "Mac" : "Linux");
