@@ -116,7 +116,7 @@ function checkConfigs()
 
 	if(!fs.existsSync(fixPath("~/.tmux.conf")))
 	{
-		fs.cpSync(paths.join(__dirname, ".zshrc"), fixPath("~/.tmux.conf"));
+		fs.cpSync(paths.join(__dirname, ".tmux.conf"), fixPath("~/.tmux.conf"));
 	}
 }
 
