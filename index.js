@@ -4,7 +4,7 @@ const require = createRequire(import.meta.url);
 const fs = require("fs");
 const exec = require("child_process");
 const os = require("os");
-const paths = require("paths");
+const paths = require("path");
 const __dirname = paths.dirName;
 
 const mac = os.type().includes("Darwin");
