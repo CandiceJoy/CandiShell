@@ -1,6 +1,10 @@
-import fs        from "fs";
-import exec from "child_process";
-import os        from "os";
+import {createRequire} from "module";
+
+const require = createRequire(import.meta.url);
+const fs = require("fs");
+const exec = require("child_process");
+const os = require("os");
+const paths = require("paths");
 
 const mac = os.type().includes("Darwin");
 console.log("OS: " + (mac) ? "Mac" : "Linux");
@@ -76,7 +80,7 @@ const prereqs = [{
 }, {
 	name   : "Oh My ZSH",
 	check  : "~/.oh-my-zsh",
-	install: `wget -O ~/install.sh https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh; chmod a+x ~/install.sh; ~/install.sh --unattended; rm ~/install.sh; sudo chsh -s "/usr/bin/zsh" "$USER"`,
+	install: `wget -O ~/install.sh https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh; chmod a+x ~/install.sh; ~/install.sh --unattended; rm ~/install.sh; sudo chsh -s "/usr/bin/zsh" "$USER"`
 }, {
 	name   : "ZSH Syntax Highlighting",
 	check  : "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh",
@@ -89,10 +93,10 @@ const prereqs = [{
 	name   : "Headline Theme",
 	check  : "~/.oh-my-zsh/custom/themes/headline.zsh-theme",
 	install: "wget -O ~/.oh-my-zsh/custom/themes/headline.zsh-theme https://raw.githubusercontent.com/moarram/headline/main/headline.zsh-theme"
-},{
-	name:"Tmux Plugin Manager",
-	check:"~/.tmux/plugins/tpm/tpm",
-	install:"git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+}, {
+	name   : "Tmux Plugin Manager",
+	check  : "~/.tmux/plugins/tpm/tpm",
+	install: "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 }];
 
 checkConfigs();
@@ -103,14 +107,14 @@ zshRefresh();
 
 function checkConfigs()
 {
-	if( !fs.existsSync(fixPath("~/.zshrc")))
+	if(!fs.existsSync(fixPath("~/.zshrc")))
 	{
-		fs.cpSync(paths.join(__dirname,".zshrc"), fixPath("~/.zshrc"));
+		fs.cpSync(paths.join(__dirname, ".zshrc"), fixPath("~/.zshrc"));
 	}
 
-	if( !fs.existsSync(fixPath("~/.tmux.conf")))
+	if(!fs.existsSync(fixPath("~/.tmux.conf")))
 	{
-		fs.cpSync(paths.join(__dirname,".zshrc"),fixPath("~/.tmux.conf"));
+		fs.cpSync(paths.join(__dirname, ".zshrc"), fixPath("~/.tmux.conf"));
 	}
 }
 
@@ -136,7 +140,7 @@ function processPrereqs()
 
 function fixPath(path)
 {
-	return path.replaceAll("~",process.env.HOME);
+	return path.replaceAll("~", process.env.HOME);
 }
 
 function processPrereq(name, check, install)
@@ -168,7 +172,7 @@ function processPrereq(name, check, install)
 		run(install);
 
 
-		if( fs.existsSync(renamedZshrc) )
+		if(fs.existsSync(renamedZshrc))
 		{
 			fs.cpSync(renamedZshrc, defaultZshrc);
 			fs.rmSync(renamedZshrc);
@@ -193,27 +197,27 @@ function tmuxRefresh()
 
 function createConfigs()
 {
-	fs.writeFileSync(fixPath((debug?".":"~")+"/.zshrc"),zshrc);
-	fs.writeFileSync(fixPath((debug?".":"~")+"/..tmux.conf"),tmuxConf);
+	fs.writeFileSync(fixPath((debug ? "." : "~") + "/.zshrc"), zshrc);
+	fs.writeFileSync(fixPath((debug ? "." : "~") + "/..tmux.conf"), tmuxConf);
 }
 
 function run(command)
 {
 	let runme = command;
 
-	if( !(command.includes(aptInstall ) || command.includes(brewInstall) || command.includes("sh -c") ) )
+	if(!(command.includes(aptInstall) || command.includes(brewInstall) || command.includes("sh -c")))
 	{
 		runme = "";
 
-		if( mac )
+		if(mac)
 		{
-			runme= `export PATH="${brewPath}:$PATH"; `;
+			runme = `export PATH="${brewPath}:$PATH"; `;
 		}
 
 		runme += `zsh -c "${command}"`;
 	}
 
-	if( debug )
+	if(debug)
 	{
 		console.log("Would run '" + runme + "'");
 	}
@@ -221,9 +225,9 @@ function run(command)
 	{
 		const proc = exec.execSync(runme, (error, stdout, stderr) =>
 		{
-			const tmuxError="no server running on ";
+			const tmuxError = "no server running on ";
 
-			if( error.message.includes(tmuxError) || stderr.includes(tmuxError))
+			if(error.message.includes(tmuxError) || stderr.includes(tmuxError))
 			{
 				console.log("Initial setup complete; log back in for everything to take effect :)");
 				process.exit(0);
@@ -244,7 +248,7 @@ function run(command)
 				console.log(stdout);
 			}
 
-			if( stderr||error )
+			if(stderr || error)
 			{
 				process.exit(1);
 			}
