@@ -13,6 +13,7 @@ const mac = os.type().includes("Darwin");
 console.log("OS: " + (mac) ? "Mac" : "Linux");
 const brewPath = "/opt/homebrew/bin/";
 const brewInstall = "brew install ";
+const aptPath = "/usr/bin/";
 const aptInstall = "sudo apt-get -y install ";
 const debug = false;
 const renamedZshrc = fixPath("~/.zshrc.pre-oh-my-zsh");
@@ -21,62 +22,68 @@ const defaultZshrc = fixPath("~/.zshrc");
 const prereqs = [{
 	linuxName   : "APT",
 	macName     : "Brew",
-	linuxCheck  : "/usr/bin/apt",
+	linuxCheck  : aptPath+"apt",
 	linuxInstall: "",
 	macCheck    : "/opt/homebrew/bin/brew",
 	macInstall  : "wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh"
 }, {
 	name        : "ZSH",
-	linuxCheck  : "/usr/bin/zsh",
+	linuxCheck  : aptPath+"zsh",
 	linuxInstall: aptInstall + "zsh",
 	macCheck    : "/bin/zsh",
 	macInstall  : brewInstall + "zsh"
+},{
+	name        : "Exa",
+	linuxCheck  : aptPath+"exa",
+	linuxInstall: aptInstall + "exa",
+	macCheck    : brewPath + "exa",
+	macInstall  : brewInstall + "exa"
 }, {
 	name        : "Tmux",
-	linuxCheck  : "/usr/bin/tmux",
+	linuxCheck  : aptPath+"tmux",
 	linuxInstall: aptInstall + "tmux",
 	macCheck    : brewPath + "tmux",
 	macInstall  : brewInstall + "tmux"
 }, {
 	name        : "Autojump",
-	linuxCheck  : "/usr/bin/autojump",
+	linuxCheck  : aptPath+"autojump",
 	linuxInstall: aptInstall + "autojump",
 	macCheck    : brewPath + "autojump",
 	macInstall  : brewInstall + "autojump"
 }, {
 	name        : "Fzf",
-	linuxCheck  : "/usr/bin/fzf",
+	linuxCheck  : aptPath+"fzf",
 	linuxInstall: aptInstall + "fzf",
 	macCheck    : brewPath + "fzf",
 	macInstall  : brewInstall + "fzf"
 }, {
 	macName     : "Reattach to User Namespace",
 	linuxName   : "xClip",
-	linuxCheck  : "/usr/bin/xclip",
+	linuxCheck  : aptPath+"xclip",
 	linuxInstall: aptInstall + "xclip",
 	macCheck    : brewPath + "reattach-to-user-namespace",
 	macInstall  : brewInstall + "reattach-to-user-namespace"
 }, {
 	name        : "Tree",
-	linuxCheck  : "/usr/bin/tree",
+	linuxCheck  : aptPath+"tree",
 	linuxInstall: aptInstall + "tree",
 	macCheck    : brewPath + "tree",
 	macInstall  : brewInstall + "tree"
 }, {
 	name        : "Wget",
-	linuxCheck  : "/usr/bin/wget",
+	linuxCheck  : aptPath+"wget",
 	linuxInstall: aptInstall + "wget",
 	macCheck    : brewPath + "wget",
 	macInstall  : brewInstall + "wget"
 }, {
 	name        : "Curl",
-	linuxCheck  : "/usr/bin/curl",
+	linuxCheck  : aptPath+"curl",
 	linuxInstall: aptInstall + "curl",
 	macCheck    : ["/usr/bin/curl", brewPath + "curl"],
 	macInstall  : brewInstall + "curl"
 }, {
 	name        : "Git",
-	linuxCheck  : "/usr/bin/git",
+	linuxCheck  : aptPath+"git",
 	linuxInstall: aptInstall + "git",
 	macCheck    : ["/usr/bin/git", brewPath + "git"],
 	macInstall  : brewInstall + "git"
