@@ -32,13 +32,13 @@ const prereqs = [{
 	linuxInstall: aptInstall + "zsh",
 	macCheck    : "/bin/zsh",
 	macInstall  : brewInstall + "zsh"
-},{
+},/*{
 	name        : "Exa",
 	linuxCheck  : aptPath+"exa",
 	linuxInstall: aptInstall + "exa",
 	macCheck    : brewPath + "exa",
 	macInstall  : brewInstall + "exa"
-}, {
+},*/ {
 	name        : "Tmux",
 	linuxCheck  : aptPath+"tmux",
 	linuxInstall: aptInstall + "tmux",
