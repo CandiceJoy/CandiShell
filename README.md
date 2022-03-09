@@ -1,6 +1,6 @@
 ## Install
 ```
-git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell; npm --prefix ~/candishell run-script run
+git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell; npm --prefix ~/candishell i; npm --prefix ~/candishell start
 ```
 
 ## Update
