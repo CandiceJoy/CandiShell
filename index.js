@@ -1,7 +1,6 @@
 import fs        from "fs";
 import exec from "child_process";
 import os        from "os";
-import paths from "paths";
 
 const mac = os.type().includes("Darwin");
 console.log("OS: " + (mac) ? "Mac" : "Linux");
