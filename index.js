@@ -104,7 +104,6 @@ const prereqs = [{
 
 checkConfigs();
 processPrereqs();
-createConfigs();
 tmuxRefresh();
 zshRefresh();
 
@@ -196,12 +195,6 @@ function tmuxRefresh()
 {
 	run("~/.tmux/plugins/tpm/bin/install_plugins");
 	run("tmux source ~/..tmux.conf");
-}
-
-function createConfigs()
-{
-	fs.writeFileSync(fixPath((debug ? "." : "~") + "/.zshrc"), zshrc);
-	fs.writeFileSync(fixPath((debug ? "." : "~") + "/..tmux.conf"), tmuxConf);
 }
 
 function run(command)
