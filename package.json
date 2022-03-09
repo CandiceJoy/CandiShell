@@ -12,9 +12,6 @@
   "license": "ISC",
   "type": "module",
   "private": true,
-  "dependencies": {
-    "paths": "^0.1.1"
-  },
   "module": "true",
   "engines" : {
     "npm" : ">=7.0.0",
