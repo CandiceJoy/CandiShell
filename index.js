@@ -114,7 +114,7 @@ const defaultConfigPath = "~/";
 const configs = [{
 	src: ".zshrc", dest:"~/.zshrc"
 }, {src: ".tmux.conf", dest:"~/.tmux.conf"
-}, {src: ".p10k.zsh",dest:"~/p10k.zsh"}];
+}, {src: ".p10k.zsh",dest:"~/.p10k.zsh"}];
 
 checkConfigs();
 processPrereqs();
