@@ -2,7 +2,7 @@
 wget -O ~/candishell-new.sh https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/candishell.sh
 
 if [ cmp -s ~/candishell.sh ~/candishell-new.sh ]; then
-  #You're good
+  rm ~/candishell-new.sh
 else
   cp ~/candishell-new.sh ~/candishell.sh
   rm ~/candishell-new.sh
