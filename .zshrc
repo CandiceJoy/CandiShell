@@ -114,7 +114,7 @@ export ARCHFLAGS="-arch x86_64"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias exit="tmux detach; exit"
+#alias exit="tmux detach; exit"
 
 if [ -e "/usr/bin/exa" ]; then
 	alias ls="exa"
