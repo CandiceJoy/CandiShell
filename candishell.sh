@@ -1,19 +1,23 @@
 #!/bin/bash
-wget -O ~/candishell-new.sh https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/candishell.sh
+git config --global core.autocrlf false
+git config --global core.eol lf
+rm -rf ~/candishell
+git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
 
-if ! cmp -s ~/candishell.sh ~/candishell-new.sh
+if ! cmp -s ~/candishell.sh ~/candishell/candishell.sh
 then
-  cp ~/candishell-new.sh ~/candishell.sh
-  rm ~/candishell-new.sh
+  cp ~/candishell/candishell.sh ~/candishell.sh
+  rm -rf ~/candishell
   echo "Script updated; please re-rerun"
   exit 0
 fi
 
 rm ~/candishell-new.sh
-wget -O ~/.zshrc https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.zshrc
-wget -O ~/.tmux.conf https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.tmux.conf
 
 if [ "$1" = "update" ]; then
+  wget -O ~/.zshrc https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.zshrc
+  wget -O ~/.tmux.conf https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.tmux.conf
+  rm -rf ~/candishell
   exit 0
 fi
 
@@ -41,10 +45,6 @@ if [ $((NODEVERSION)) -le 15 ]; then
   fi
 fi
 
-rm -rf ~/candishell
-git config --global core.autocrlf false
-git config --global core.eol lf
-git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
 npm --prefix ~/candishell i
 npm --prefix ~/candishell start
 rm -rf ~/candishell
