@@ -122,10 +122,34 @@ const configs = [{
 	dest: "~/.p10k.zsh", dontOverwrite: true
 }];
 
+let force = false;
+
+processArgs();
 checkConfigs();
 processPrereqs();
 tmuxRefresh();
 zshRefresh();
+
+function processArgs()
+{
+	const args = process.argv.slice(2);
+	
+	for( let i = 0; i < args; i++ )
+	{
+		const arg = args[i];
+
+		switch(arg)
+		{
+			case "force":
+				force = true;
+				break;
+			default:
+				console.err("Unrecognised option");
+				process.exit(1);
+				break;
+		}
+	}
+}
 
 function checkConfigs()
 {
@@ -133,7 +157,7 @@ function checkConfigs()
 	{
 		const config = configs[i];
 
-		if( fs.existsSync( fixPath(config.dest)) && config.dontOverwrite)
+		if( fs.existsSync( fixPath(config.dest)) && config.dontOverwrite && !force )
 		{
 			continue;
 		}

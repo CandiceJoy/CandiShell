@@ -44,5 +44,5 @@ if [ $((NODEVERSION)) -le 15 ]; then
 fi
 
 npm --prefix ~/candishell i
-npm --prefix ~/candishell start
+npm --prefix ~/candishell start $1
 rm -rf ~/candishell
