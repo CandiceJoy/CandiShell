@@ -143,7 +143,7 @@ function processArgs()
 
 		switch(arg)
 		{
-			case "force":
+			case "\"force\"":
 				console.warn("Forcing");
 				force = true;
 				break;
