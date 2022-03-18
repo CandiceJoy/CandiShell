@@ -10,7 +10,7 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = paths.dirname(__filename);
 
 const mac = os.type().includes("Darwin");
-console.log("OS: " + (mac) ? "Mac" : "Linux");
+console.log("OS: " + os.type() );
 const brewPath = "/opt/homebrew/bin/";
 const brewInstall = "brew install ";
 const aptPath = "/usr/bin/";
@@ -32,13 +32,13 @@ const prereqs = [{
 	linuxInstall: aptInstall + "zsh",
 	macCheck    : "/bin/zsh",
 	macInstall  : brewInstall + "zsh"
-},/*{
+},{
  name        : "Exa",
  linuxCheck  : aptPath+"exa",
  linuxInstall: aptInstall + "exa",
  macCheck    : brewPath + "exa",
  macInstall  : brewInstall + "exa"
- },*/ {
+ }, {
 	name        : "Tmux",
 	linuxCheck  : aptPath + "tmux",
 	linuxInstall: aptInstall + "tmux",
@@ -120,6 +120,9 @@ const configs = [{
 }, {
 	src : ".p10k.zsh",
 	dest: "~/.p10k.zsh", dontOverwrite: true
+}, {
+	src: "remote.sh",
+	dest: "~/remote.sh"
 }];
 
 let force = false;
