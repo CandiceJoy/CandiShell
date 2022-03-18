@@ -100,9 +100,10 @@ const prereqs = [{
 	check  : "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh",
 	install: "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 }, {
-	name   : "Powerline 10k Theme",
-	check  : "~/.oh-my-zsh/custom/themes/powerlevel10k",
-	install: "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
+	name     : "Powerline 10k Theme",
+	check    : "~/.oh-my-zsh/custom/themes/powerlevel10k",
+	install  : "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k",
+	overwrite: false
 }, {
 	name   : "Tmux Plugin Manager",
 	check  : "~/.tmux/plugins/tpm/tpm",
@@ -112,9 +113,15 @@ const prereqs = [{
 const defaultConfigPath = "~/";
 
 const configs = [{
-	src: ".zshrc", dest:"~/.zshrc"
-}, {src: ".tmux.conf", dest:"~/.tmux.conf"
-}, {src: ".p10k.zsh",dest:"~/.p10k.zsh"}];
+	src : ".zshrc",
+	dest: "~/.zshrc"
+}, {
+	src : ".tmux.conf",
+	dest: "~/.tmux.conf"
+}, {
+	src : ".p10k.zsh",
+	dest: "~/.p10k.zsh"
+}];
 
 checkConfigs();
 processPrereqs();
@@ -123,11 +130,11 @@ zshRefresh();
 
 function checkConfigs()
 {
-	for( let i = 0; i < configs.length; i++ )
+	for(let i = 0; i < configs.length; i++)
 	{
 		const config = configs[i];
 
-		fs.cpSync( paths.join( __dirname, config.src ), fixPath(config.dest));
+		fs.cpSync(paths.join(__dirname, config.src), fixPath(config.dest));
 	}
 }
 
@@ -140,13 +147,15 @@ function processPrereqs()
 		if(mac)
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.macName, (prereq.check) ? prereq.check : prereq.macCheck,
-			              (prereq.install) ? prereq.install : prereq.macInstall);
+			              (prereq.install) ? prereq.install : prereq.macInstall,
+			              (prereq.overwrite) ? prereq.overwrite : true);
 		}
 		else
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.linuxName,
 			              (prereq.check) ? prereq.check : prereq.linuxCheck,
-			              (prereq.install) ? prereq.install : prereq.linuxInstall);
+			              (prereq.install) ? prereq.install : prereq.linuxInstall,
+			              (prereq.overwrite) ? prereq.overwrite : true);
 		}
 	}
 }
@@ -156,7 +165,7 @@ function fixPath(path)
 	return path.replaceAll("~", process.env.HOME);
 }
 
-function processPrereq(name, check, install)
+function processPrereq(name, check, install, overwrite)
 {
 	let found = false;
 
@@ -179,7 +188,7 @@ function processPrereq(name, check, install)
 		}
 	}
 
-	if(!found)
+	if(!found && overwrite)
 	{
 		console.log("Missing " + name + "; installing");
 		run(install);
