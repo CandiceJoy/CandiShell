@@ -142,7 +142,7 @@ console.log("A");
 	{
 		console.log("C");
 		const arg = args[i];
-		console(`arg: '${arg}'`);
+		console.log(`arg: '${arg}'`);
 
 		switch(arg)
 		{
