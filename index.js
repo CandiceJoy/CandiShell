@@ -135,10 +135,12 @@ zshRefresh();
 
 function processArgs()
 {
+console.log("A");
 	const args = process.argv.slice(2);
-	
+	console.log("B"+args.length);
 	for( let i = 0; i < args.length; i++ )
 	{
+		console.log("C");
 		const arg = args[i];
 		console(`arg: '${arg}'`);
 
