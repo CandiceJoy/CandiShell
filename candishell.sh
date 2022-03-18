@@ -12,8 +12,6 @@ then
   exit 0
 fi
 
-rm ~/candishell-new.sh
-
 if [ "$1" = "update" ]; then
   wget -O ~/.zshrc https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.zshrc
   wget -O ~/.tmux.conf https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.tmux.conf
