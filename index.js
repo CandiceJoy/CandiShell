@@ -102,7 +102,7 @@ const prereqs = [{
 }, {
 	name   : "Powerline 10k Theme",
 	check  : "~/.oh-my-zsh/custom/themes/powerlevel10k",
-	install: "git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k"
+	install: "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
 }, {
 	name   : "Tmux Plugin Manager",
 	check  : "~/.tmux/plugins/tpm/tpm",

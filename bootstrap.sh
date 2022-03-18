@@ -23,7 +23,8 @@ if [ $((NODEVERSION)) -le 15 ]; then
   fi
 fi
 
+git config --global core.autocrlf true
 git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
 npm --prefix ~/candishell i
 npm --prefix ~/candishell start
-rm -r ~/candishell
+rm -rf ~/candishell

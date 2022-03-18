@@ -1,6 +1,6 @@
 ## Install
 ```
-git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell; npm --prefix ~/candishell i; npm --prefix ~/candishell start
+wget -O ~/bootstrap.sh https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/bootstrap.sh; chmod 700 ~/bootstrap.sh; ~/bootstrap.sh
 ```
 
 ## Update
