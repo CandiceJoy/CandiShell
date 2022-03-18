@@ -1,20 +1,21 @@
 #!/bin/bash
 wget -O ~/candishell-new.sh https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/candishell.sh
 
-if [ ! cmp -s ~/candishell.sh ~/candishell-new.sh ]; then
-   cp ~/candishell-new.sh ~/candishell.sh
-   rm ~/candishell-new.sh
-   echo "Script updated; please re-rerun"
-   exit 0
+if [ cmp -s ~/candishell.sh ~/candishell-new.sh ]; then
+  #You're good
+else
+  cp ~/candishell-new.sh ~/candishell.sh
+  rm ~/candishell-new.sh
+  echo "Script updated; please re-rerun"
+  exit 0
 fi
 
 rm ~/candishell-new.sh
 
-
 wget -O ~/.zshrc https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.zshrc
 wget -O ~/.tmux.conf https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/.tmux.conf
 
-if [ $1 -eq "update" ]; then
+if [ "$1" = "update" ]; then
   exit 0
 fi
 
@@ -42,6 +43,7 @@ if [ $((NODEVERSION)) -le 15 ]; then
   fi
 fi
 
+rm -rf ~/candishell
 git config --global core.autocrlf false
 git config --global core.eol lf
 git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
