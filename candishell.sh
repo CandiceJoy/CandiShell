@@ -1,4 +1,4 @@
-'#!/bin/bash
+#!/bin/bash
 git config --global core.autocrlf false
 git config --global core.eol lf
 rm -rf ~/candishell
