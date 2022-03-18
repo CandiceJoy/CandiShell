@@ -37,7 +37,8 @@ const prereqs = [{
  linuxCheck  : aptPath+"exa",
  linuxInstall: aptInstall + "exa",
  macCheck    : brewPath + "exa",
- macInstall  : brewInstall + "exa"
+ macInstall  : brewInstall + "exa",
+optional: true
  }, {
 	name        : "Tmux",
 	linuxCheck  : aptPath + "tmux",
@@ -180,14 +181,14 @@ function processPrereqs()
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.macName, (prereq.check) ? prereq.check : prereq.macCheck,
 			              (prereq.install) ? prereq.install : prereq.macInstall,
-			              (prereq.overwrite) ? prereq.overwrite : false);
+			              (prereq.overwrite) ? prereq.overwrite : false,(prereq.optional)?preqreq.optional:false);
 		}
 		else
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.linuxName,
 			              (prereq.check) ? prereq.check : prereq.linuxCheck,
 			              (prereq.install) ? prereq.install : prereq.linuxInstall,
-			              (prereq.overwrite) ? prereq.overwrite : false);
+			              (prereq.overwrite) ? prereq.overwrite : false,(prereq.optional)?prereq.optional:false);
 		}
 	}
 }
@@ -197,7 +198,7 @@ function fixPath(path)
 	return path.replaceAll("~", process.env.HOME);
 }
 
-function processPrereq(name, check, install, overwrite)
+function processPrereq(name, check, install, overwrite=false, optional=false)
 {
 	let found = false;
 
@@ -223,7 +224,22 @@ function processPrereq(name, check, install, overwrite)
 	if(!found || overwrite)
 	{
 		console.log("Missing " + name + "; installing");
-		run(install);
+
+		if( optional )
+		{
+			try
+			{
+				run(install);
+			}
+			catch(err)
+			{
+				console.log("Caught error during optional prereq; ignoring");
+			}
+		}
+		else
+		{
+			run(install);
+		}
 
 
 		if(fs.existsSync(renamedZshrc))
