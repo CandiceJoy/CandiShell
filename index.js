@@ -132,6 +132,7 @@ zshRefresh();
 
 function processArgs()
 {
+	console.log(JSON.stringify(process.argv,null,"\t"));
 	const args = process.argv.slice(2);
 	
 	for( let i = 0; i < args; i++ )

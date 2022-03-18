@@ -117,6 +117,9 @@ export ARCHFLAGS="-arch x86_64"
 alias exit="tmux detach; exit"
 #alias ls="exa"
 alias cls="clear"
+alias commit="git commit -a"
+alias push="git push"
+alias clone="git clone"
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
