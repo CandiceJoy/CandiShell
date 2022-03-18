@@ -1,7 +1,7 @@
 #!/bin/bash
 wget -O ~/candishell-new.sh https://cdn.jsdelivr.net/gh/CandiceJoy/CandiShell/candishell.sh
 
-if ! cmp -s ~/candishell.sh ~/candishell-new.sh
+if [ ! cmp -s ~/candishell.sh ~/candishell-new.sh ]; then
    cp ~/candishell-new.sh ~/candishell.sh
    rm ~/candishell-new.sh
    echo "Script updated; please re-rerun"
