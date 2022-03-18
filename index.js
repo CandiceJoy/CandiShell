@@ -204,7 +204,7 @@ function zshRefresh()
 
 function tmuxRefresh()
 {
-	run("~/.tmux/plugins/tpm/bin/install_plugins");
+	//run("~/.tmux/plugins/tpm/bin/install_plugins");
 	//run("tmux source ~/..tmux.conf");
 }
 
