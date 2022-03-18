@@ -136,6 +136,7 @@ zshRefresh();
 function processArgs()
 {
 	const args = process.argv.slice(2);
+	console.log(JSON.stringify(args,null,"\t"));
 	
 	for( let i = 0; i < args; i++ )
 	{
@@ -143,7 +144,7 @@ function processArgs()
 
 		switch(arg)
 		{
-			case "\"force\"":
+			case "force":
 				console.warn("Forcing");
 				force = true;
 				break;
