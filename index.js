@@ -102,8 +102,7 @@ const prereqs = [{
 }, {
 	name     : "Powerline 10k Theme",
 	check    : "~/.oh-my-zsh/custom/themes/powerlevel10k",
-	install  : "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k",
-	overwrite: false
+	install  : "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
 }, {
 	name   : "Tmux Plugin Manager",
 	check  : "~/.tmux/plugins/tpm/tpm",
@@ -120,7 +119,7 @@ const configs = [{
 	dest: "~/.tmux.conf"
 }, {
 	src : ".p10k.zsh",
-	dest: "~/.p10k.zsh"
+	dest: "~/.p10k.zsh", dontOverwrite: true
 }];
 
 checkConfigs();
@@ -133,6 +132,11 @@ function checkConfigs()
 	for(let i = 0; i < configs.length; i++)
 	{
 		const config = configs[i];
+
+		if( fs.existsSync( fixPath(config.dest)) && config.dontOverwrite)
+		{
+			continue;
+		}
 
 		fs.cpSync(paths.join(__dirname, config.src), fixPath(config.dest));
 	}
@@ -148,14 +152,14 @@ function processPrereqs()
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.macName, (prereq.check) ? prereq.check : prereq.macCheck,
 			              (prereq.install) ? prereq.install : prereq.macInstall,
-			              (prereq.overwrite) ? prereq.overwrite : true);
+			              (prereq.overwrite) ? prereq.overwrite : false);
 		}
 		else
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.linuxName,
 			              (prereq.check) ? prereq.check : prereq.linuxCheck,
 			              (prereq.install) ? prereq.install : prereq.linuxInstall,
-			              (prereq.overwrite) ? prereq.overwrite : true);
+			              (prereq.overwrite) ? prereq.overwrite : false);
 		}
 	}
 }
@@ -188,7 +192,7 @@ function processPrereq(name, check, install, overwrite)
 		}
 	}
 
-	if(!found && overwrite)
+	if(!found || overwrite)
 	{
 		console.log("Missing " + name + "; installing");
 		run(install);
