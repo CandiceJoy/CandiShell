@@ -144,6 +144,7 @@ function processArgs()
 		switch(arg)
 		{
 			case "force":
+				console.warn("Forcing");
 				force = true;
 				break;
 			default:
