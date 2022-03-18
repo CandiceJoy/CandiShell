@@ -6,8 +6,8 @@ const exec = require("child_process");
 const os = require("os");
 const paths = require("path");
 const url = require("url");
-const __filename = url.fileURLToPath(import.meta.url)
-const __dirname = paths.dirname(__filename)
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = paths.dirname(__filename);
 
 const mac = os.type().includes("Darwin");
 console.log("OS: " + (mac) ? "Mac" : "Linux");
@@ -22,68 +22,68 @@ const defaultZshrc = fixPath("~/.zshrc");
 const prereqs = [{
 	linuxName   : "APT",
 	macName     : "Brew",
-	linuxCheck  : aptPath+"apt",
+	linuxCheck  : aptPath + "apt",
 	linuxInstall: "",
 	macCheck    : "/opt/homebrew/bin/brew",
 	macInstall  : "wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh"
 }, {
 	name        : "ZSH",
-	linuxCheck  : aptPath+"zsh",
+	linuxCheck  : aptPath + "zsh",
 	linuxInstall: aptInstall + "zsh",
 	macCheck    : "/bin/zsh",
 	macInstall  : brewInstall + "zsh"
 },/*{
-	name        : "Exa",
-	linuxCheck  : aptPath+"exa",
-	linuxInstall: aptInstall + "exa",
-	macCheck    : brewPath + "exa",
-	macInstall  : brewInstall + "exa"
-},*/ {
+ name        : "Exa",
+ linuxCheck  : aptPath+"exa",
+ linuxInstall: aptInstall + "exa",
+ macCheck    : brewPath + "exa",
+ macInstall  : brewInstall + "exa"
+ },*/ {
 	name        : "Tmux",
-	linuxCheck  : aptPath+"tmux",
+	linuxCheck  : aptPath + "tmux",
 	linuxInstall: aptInstall + "tmux",
 	macCheck    : brewPath + "tmux",
 	macInstall  : brewInstall + "tmux"
 }, {
 	name        : "Autojump",
-	linuxCheck  : aptPath+"autojump",
+	linuxCheck  : aptPath + "autojump",
 	linuxInstall: aptInstall + "autojump",
 	macCheck    : brewPath + "autojump",
 	macInstall  : brewInstall + "autojump"
 }, {
 	name        : "Fzf",
-	linuxCheck  : aptPath+"fzf",
+	linuxCheck  : aptPath + "fzf",
 	linuxInstall: aptInstall + "fzf",
 	macCheck    : brewPath + "fzf",
 	macInstall  : brewInstall + "fzf"
 }, {
 	macName     : "Reattach to User Namespace",
 	linuxName   : "xClip",
-	linuxCheck  : aptPath+"xclip",
+	linuxCheck  : aptPath + "xclip",
 	linuxInstall: aptInstall + "xclip",
 	macCheck    : brewPath + "reattach-to-user-namespace",
 	macInstall  : brewInstall + "reattach-to-user-namespace"
 }, {
 	name        : "Tree",
-	linuxCheck  : aptPath+"tree",
+	linuxCheck  : aptPath + "tree",
 	linuxInstall: aptInstall + "tree",
 	macCheck    : brewPath + "tree",
 	macInstall  : brewInstall + "tree"
 }, {
 	name        : "Wget",
-	linuxCheck  : aptPath+"wget",
+	linuxCheck  : aptPath + "wget",
 	linuxInstall: aptInstall + "wget",
 	macCheck    : brewPath + "wget",
 	macInstall  : brewInstall + "wget"
 }, {
 	name        : "Curl",
-	linuxCheck  : aptPath+"curl",
+	linuxCheck  : aptPath + "curl",
 	linuxInstall: aptInstall + "curl",
 	macCheck    : ["/usr/bin/curl", brewPath + "curl"],
 	macInstall  : brewInstall + "curl"
 }, {
 	name        : "Git",
-	linuxCheck  : aptPath+"git",
+	linuxCheck  : aptPath + "git",
 	linuxInstall: aptInstall + "git",
 	macCheck    : ["/usr/bin/git", brewPath + "git"],
 	macInstall  : brewInstall + "git"
@@ -100,14 +100,21 @@ const prereqs = [{
 	check  : "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh",
 	install: "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 }, {
-	name   : "Headline Theme",
-	check  : "~/.oh-my-zsh/custom/themes/headline.zsh-theme",
-	install: "wget -O ~/.oh-my-zsh/custom/themes/headline.zsh-theme https://raw.githubusercontent.com/moarram/headline/main/headline.zsh-theme"
+	name   : "Powerline 10k Theme",
+	check  : "~/.oh-my-zsh/custom/themes/powerlevel10k",
+	install: "git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k"
 }, {
 	name   : "Tmux Plugin Manager",
 	check  : "~/.tmux/plugins/tpm/tpm",
 	install: "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 }];
+
+const defaultConfigPath = "~/";
+
+const configs = [{
+	src: ".zshrc", dest:"~/.zshrc"
+}, {src: ".tmux.conf", dest:"~/.tmux.conf"
+}, {src: ".p10k.zsh",dest:"~/p10k.zsh"}];
 
 checkConfigs();
 processPrereqs();
@@ -116,8 +123,12 @@ zshRefresh();
 
 function checkConfigs()
 {
-	fs.cpSync(paths.join(__dirname, ".zshrc"), fixPath("~/.zshrc"));
-	fs.cpSync(paths.join(__dirname, ".tmux.conf"), fixPath("~/.tmux.conf"));
+	for( let i = 0; i < configs.length; i++ )
+	{
+		const config = configs[i];
+
+		fs.cpSync( paths.join( __dirname, config.src ), fixPath(config.dest));
+	}
 }
 
 function processPrereqs()
