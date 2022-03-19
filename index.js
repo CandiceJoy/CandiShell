@@ -190,8 +190,8 @@ const configs = [{
 let force = false;
 
 processArgs();
-checkConfigs();
 processPrereqs();
+checkConfigs();
 tmuxRefresh();
 zshRefresh();
 
@@ -230,10 +230,10 @@ function checkConfigs()
 
 		fs.cpSync(paths.join(__dirname, config.src), fixPath(config.dest));
 
-		try
+		/*try
 		{
-			run("dos2unix " + fixPath(config.dest));
-		}
+			*/run("dos2unix " + fixPath(config.dest));
+		/*}
 		catch(err)
 		{
 			if( mac )
@@ -246,7 +246,7 @@ function checkConfigs()
 			}
 
 			run( "dos2unix " + fixPath( config.dest ) );
-		}
+		}*/
 	}
 }
 
