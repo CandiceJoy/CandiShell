@@ -25,7 +25,10 @@ const prereqs = [{
 	linuxName   : "APT",
 	macName     : "Brew",
 	linuxCheck  : aptPath + "apt",
-	linuxInstall: ()=>{throw "APT Not Found; cannot continue";},
+	linuxInstall: () =>
+	{
+		throw "APT Not Found; cannot continue";
+	},
 	macCheck    : "/opt/homebrew/bin/brew",
 	macInstall  : "wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh"
 }, {
@@ -46,6 +49,12 @@ const prereqs = [{
 	macCheck    : brewPath + "exa",
 	macInstall  : brewInstall + "exa",
 	optional    : true
+}, {
+	name        : "Dos2Unix",
+	linuxCheck  : aptPath + "dos2unix",
+	linuxInstall: aptInstall + "dos2unix",
+	macCheck    : brewPath + "dos2unix",
+	macInstall  : brewInstall + "dos2unix"
 }, {
 	name        : "Tmux",
 	linuxCheck  : aptPath + "tmux",
@@ -135,22 +144,22 @@ const prereqs = [{
 	linuxCheck  : aptPath + "rg",
 	linuxInstall: aptInstall + "ripgrep",
 	optional    : true
-},{
+}, {
 	name        : "Bat",
 	linuxCheck  : aptPath + "batcat",
 	linuxInstall: aptInstall + "bat",
 	optional    : true
-},{
+}, {
 	name        : "FD",
 	linuxCheck  : aptPath + "fdfind",
 	linuxInstall: aptInstall + "fd-find",
 	optional    : true
-},{
+}, {
 	name        : "TLDR",
 	linuxCheck  : "/usr/local/bin/tldr",
 	linuxInstall: "sudo npm install -g tldr",
-	macCheck: brewPath+"tldr",
-	macInstall: brewInstall+"tldr",
+	macCheck    : brewPath + "tldr",
+	macInstall  : brewInstall + "tldr",
 	optional    : true
 }, {
 	name   : "Tmux Plugin Manager",
@@ -220,6 +229,7 @@ function checkConfigs()
 		}
 
 		fs.cpSync(paths.join(__dirname, config.src), fixPath(config.dest));
+		run("dos2unix " + fixPath(config.dest));
 	}
 }
 
