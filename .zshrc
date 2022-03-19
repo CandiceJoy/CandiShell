@@ -122,7 +122,7 @@ fi
 
 alias cls="clear"
 
-if [ -e "/usr/sbin/btop" ]; then
+if [ -e "/snap/bin/btop" ]; then
 	alias top="btop"
 fi
 
@@ -131,7 +131,7 @@ if [ -e "/usr/bin/nano" ]; then
 fi
 
 if [ -e "/usr/bin/fdfind" ]; then
-	alias find="fd"
+	alias find="fdfind"
 fi
 
 if [ -e "/usr/bin/rg" ]; then
@@ -144,6 +144,7 @@ fi
 
 if [ -e "/usr/local/bin/tldr" ]; then
 	alias man="tldr"
+	alias manman="/usr/bin/man"
 fi
 
 #Git Aliases
