@@ -120,7 +120,7 @@ const prereqs = [{
 	optional    : true
 }, {
 	name        : "IFTop",
-	linuxCheck  : aptPath + "iftop",
+	linuxCheck  : "/usr/sbin/iftop",
 	linuxInstall: aptInstall + "iftop",
 	macCheck    : brewPath + "iftop",
 	macInstall  : brewInstall + "iftop",
@@ -132,7 +132,7 @@ const prereqs = [{
 	optional    : true
 }, {
 	name        : "Ripgrep",
-	linuxCheck  : aptPath + "ripgrep",
+	linuxCheck  : aptPath + "rg",
 	linuxInstall: aptInstall + "ripgrep",
 	optional    : true
 },{
@@ -142,7 +142,7 @@ const prereqs = [{
 	optional    : true
 },{
 	name        : "FD",
-	linuxCheck  : aptPath + "fd-find",
+	linuxCheck  : aptPath + "fdfind",
 	linuxInstall: aptInstall + "fd-find",
 	optional    : true
 },{

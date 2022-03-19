@@ -122,7 +122,7 @@ fi
 
 alias cls="clear"
 
-if [ -e "/usr/bin/btop" ]; then
+if [ -e "/usr/sbin/btop" ]; then
 	alias top="btop"
 fi
 
@@ -130,7 +130,7 @@ if [ -e "/usr/bin/nano" ]; then
 	alias pico="nano"
 fi
 
-if [ -e "/usr/bin/fd" ]; then
+if [ -e "/usr/bin/fdfind" ]; then
 	alias find="fd"
 fi
 
