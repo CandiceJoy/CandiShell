@@ -1,0 +1,48 @@
+ForwardAgent yes
+ForwardX11 yes
+
+Host github
+	User git
+	Hostname github.com
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519
+Host rin
+	User candi
+	Hostname rin.candicejoy.com
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519
+Host rin-root
+	User root
+	Hostname rin.candicejoy.com
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519	
+Host pi
+	User candice
+	Hostname 10.0.0.110
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519	
+Host pi-root
+	User root
+	Hostname 10.0.0.110
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519	
+Host home
+	User candice
+	Hostname home.candicejoy.com
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519	
+Host home-root
+	User root
+	Hostname home.candicejoy.com
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519	
+Host local
+	User candice
+	Hostname localhost
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519	
+Host desktop
+	User candice
+	Hostname 10.0.0.100
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_ed25519
