@@ -229,7 +229,24 @@ function checkConfigs()
 		}
 
 		fs.cpSync(paths.join(__dirname, config.src), fixPath(config.dest));
-		run("dos2unix " + fixPath(config.dest));
+
+		try
+		{
+			run("dos2unix " + fixPath(config.dest));
+		}
+		catch(err)
+		{
+			if( mac )
+			{
+				run( "sudo brew install dos2unix" );
+			}
+			else
+			{
+				run( "sudo apt-get install dos2unix");
+			}
+
+			run( "dos2unix " + fixPath( "config.dest" ) );
+		}
 	}
 }
 
