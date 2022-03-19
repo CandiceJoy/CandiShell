@@ -124,6 +124,9 @@ const configs = [{
 }, {
 	src: "remote.sh",
 	dest: "~/remote.sh"
+}, {
+	src: "config",
+	dest: "~/.ssh/config"
 }];
 
 let force = false;
