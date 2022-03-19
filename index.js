@@ -245,7 +245,7 @@ function checkConfigs()
 				run( "sudo apt-get install dos2unix");
 			}
 
-			run( "dos2unix " + fixPath( "config.dest" ) );
+			run( "dos2unix " + fixPath( config.dest ) );
 		}
 	}
 }
