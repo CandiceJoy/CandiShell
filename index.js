@@ -192,8 +192,6 @@ let force = false;
 processArgs();
 processPrereqs();
 checkConfigs();
-tmuxRefresh();
-zshRefresh();
 
 function processArgs()
 {
@@ -337,17 +335,6 @@ function processPrereq(name, check, install, overwrite = false, optional = false
 	{
 		console.log(name + " found");
 	}
-}
-
-function zshRefresh()
-{
-	run("source ~/.zshrc");
-}
-
-function tmuxRefresh()
-{
-	//run("~/.tmux/plugins/tpm/bin/install_plugins");
-	//run("tmux source ~/..tmux.conf");
 }
 
 function run(command)

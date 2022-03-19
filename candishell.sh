@@ -46,4 +46,4 @@ fi
 npm --prefix ~/candishell i
 npm --prefix ~/candishell start $1
 rm -rf ~/candishell
-source ~/.zshrc
+echo "Run source ~/.zshrc to update"
