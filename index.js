@@ -144,6 +144,13 @@ const prereqs = [{
 	linuxCheck  : aptPath + "rg",
 	linuxInstall: aptInstall + "ripgrep",
 	optional    : true
+},{
+	name        : "NNN",
+	linuxCheck  : aptPath + "nnn",
+	linuxInstall: aptInstall + "nnn",
+	macCheck: brewPath+"nnn",
+	macInstall: brewInstall+"nnn",
+	optional    : true
 }, {
 	name        : "Bat",
 	linuxCheck  : aptPath + "batcat",
