@@ -10,11 +10,13 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = paths.dirname(__filename);
 
 const mac = os.type().includes("Darwin");
-console.log("OS: " + os.type() );
+console.log("OS: " + os.type());
 const brewPath = "/opt/homebrew/bin/";
 const brewInstall = "brew install ";
 const aptPath = "/usr/bin/";
 const aptInstall = "sudo apt-get -y install ";
+const snapPath = "/snap/bin/";
+const snapInstall = "snap install ";
 const debug = false;
 const renamedZshrc = fixPath("~/.zshrc.pre-oh-my-zsh");
 const defaultZshrc = fixPath("~/.zshrc");
@@ -23,23 +25,28 @@ const prereqs = [{
 	linuxName   : "APT",
 	macName     : "Brew",
 	linuxCheck  : aptPath + "apt",
-	linuxInstall: "",
+	linuxInstall: ()=>{throw "APT Not Found; cannot continue";},
 	macCheck    : "/opt/homebrew/bin/brew",
 	macInstall  : "wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh"
+}, {
+	name        : "Snap",
+	linuxCheck  : aptPath + "snap",
+	linuxInstall: aptInstall + "snapd",
+	optional    : true
 }, {
 	name        : "ZSH",
 	linuxCheck  : aptPath + "zsh",
 	linuxInstall: aptInstall + "zsh",
 	macCheck    : "/bin/zsh",
 	macInstall  : brewInstall + "zsh"
-},{
- name        : "Exa",
- linuxCheck  : aptPath+"exa",
- linuxInstall: aptInstall + "exa",
- macCheck    : brewPath + "exa",
- macInstall  : brewInstall + "exa",
-optional: true
- }, {
+}, {
+	name        : "Exa",
+	linuxCheck  : aptPath + "exa",
+	linuxInstall: aptInstall + "exa",
+	macCheck    : brewPath + "exa",
+	macInstall  : brewInstall + "exa",
+	optional    : true
+}, {
 	name        : "Tmux",
 	linuxCheck  : aptPath + "tmux",
 	linuxInstall: aptInstall + "tmux",
@@ -101,9 +108,50 @@ optional: true
 	check  : "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh",
 	install: "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 }, {
-	name     : "Powerline 10k Theme",
-	check    : "~/.oh-my-zsh/custom/themes/powerlevel10k",
-	install  : "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
+	name   : "Powerline 10k Theme",
+	check  : "~/.oh-my-zsh/custom/themes/powerlevel10k",
+	install: "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
+}, {
+	name        : "BTop",
+	linuxCheck  : snapPath + "btop",
+	linuxInstall: snapInstall + "btop",
+	macCheck    : brewPath + "btop",
+	macInstall  : brewInstall + "btop",
+	optional    : true
+}, {
+	name        : "IFTop",
+	linuxCheck  : aptPath + "iftop",
+	linuxInstall: aptInstall + "iftop",
+	macCheck    : brewPath + "iftop",
+	macInstall  : brewInstall + "iftop",
+	optional    : true
+}, {
+	name        : "FKill",
+	linuxCheck  : snapPath + "fkill",
+	linuxInstall: snapInstall + "fkill",
+	optional    : true
+}, {
+	name        : "Ripgrep",
+	linuxCheck  : aptPath + "ripgrep",
+	linuxInstall: aptInstall + "ripgrep",
+	optional    : true
+},{
+	name        : "Bat",
+	linuxCheck  : aptPath + "batcat",
+	linuxInstall: aptInstall + "bat",
+	optional    : true
+},{
+	name        : "FD",
+	linuxCheck  : aptPath + "fd-find",
+	linuxInstall: aptInstall + "fd-find",
+	optional    : true
+},{
+	name        : "TLDR",
+	linuxCheck  : "/usr/local/bin/tldr",
+	linuxInstall: "sudo npm install -g tldr",
+	macCheck: brewPath+"tldr",
+	macInstall: brewInstall+"tldr",
+	optional    : true
 }, {
 	name   : "Tmux Plugin Manager",
 	check  : "~/.tmux/plugins/tpm/tpm",
@@ -119,13 +167,14 @@ const configs = [{
 	src : ".tmux.conf",
 	dest: "~/.tmux.conf"
 }, {
-	src : ".p10k.zsh",
-	dest: "~/.p10k.zsh", dontOverwrite: true
+	src          : ".p10k.zsh",
+	dest         : "~/.p10k.zsh",
+	dontOverwrite: true
 }, {
-	src: "remote.sh",
+	src : "remote.sh",
 	dest: "~/remote.sh"
 }, {
-	src: "config",
+	src : "config",
 	dest: "~/.ssh/config"
 }];
 
@@ -141,7 +190,7 @@ function processArgs()
 {
 	const args = process.argv.slice(2);
 
-	for( let i = 0; i < args.length; i++ )
+	for(let i = 0; i < args.length; i++)
 	{
 		const arg = args[i];
 
@@ -165,7 +214,7 @@ function checkConfigs()
 	{
 		const config = configs[i];
 
-		if( fs.existsSync( fixPath(config.dest)) && config.dontOverwrite && !force )
+		if(fs.existsSync(fixPath(config.dest)) && config.dontOverwrite && !force)
 		{
 			continue;
 		}
@@ -180,18 +229,24 @@ function processPrereqs()
 	{
 		const prereq = prereqs[i];
 
-		if(mac)
+		if(mac && (prereq.name || prereq.macName) && (prereq.check || prereq.macCheck) &&
+		   (prereq.install || prereq.macInstall))
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.macName, (prereq.check) ? prereq.check : prereq.macCheck,
 			              (prereq.install) ? prereq.install : prereq.macInstall,
-			              (prereq.overwrite) ? prereq.overwrite : false,(prereq.optional)?preqreq.optional:false);
+			              (prereq.overwrite) ? prereq.overwrite : false, (prereq.optional) ? preqreq.optional : false);
 		}
-		else
+		else if((prereq.name || prereq.linuxName) && (prereq.check || prereq.linuxCheck) &&
+		        (prereq.install || prereq.linuxInstall))
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.linuxName,
 			              (prereq.check) ? prereq.check : prereq.linuxCheck,
 			              (prereq.install) ? prereq.install : prereq.linuxInstall,
-			              (prereq.overwrite) ? prereq.overwrite : false,(prereq.optional)?prereq.optional:false);
+			              (prereq.overwrite) ? prereq.overwrite : false, (prereq.optional) ? prereq.optional : false);
+		}
+		else
+		{
+			console.log(prereq.name + " is not available for your OS; skipping");
 		}
 	}
 }
@@ -201,7 +256,7 @@ function fixPath(path)
 	return path.replaceAll("~", process.env.HOME);
 }
 
-function processPrereq(name, check, install, overwrite=false, optional=false)
+function processPrereq(name, check, install, overwrite = false, optional = false)
 {
 	let found = false;
 
@@ -228,7 +283,7 @@ function processPrereq(name, check, install, overwrite=false, optional=false)
 	{
 		console.log("Missing " + name + "; installing");
 
-		if( optional )
+		if(optional)
 		{
 			try
 			{

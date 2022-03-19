@@ -102,7 +102,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-export EDITOR='pico'
+export EDITOR='nano'
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
@@ -121,14 +121,39 @@ if [ -e "/usr/bin/exa" ]; then
 fi
 
 alias cls="clear"
-alias pico="nano"
+
+if [ -e "/usr/bin/btop" ]; then
+	alias top="btop"
+fi
+
+if [ -e "/usr/bin/nano" ]; then
+	alias pico="nano"
+fi
+
+if [ -e "/usr/bin/fd" ]; then
+	alias find="fd"
+fi
+
+if [ -e "/usr/bin/rg" ]; then
+	alias grep="rg"
+fi
+
+if [ -e "/usr/bin/batcat" ]; then
+	alias cat="batcat"
+fi
+
+if [ -e "/usr/local/bin/tldr" ]; then
+	alias man="tldr"
+fi
 
 #Git Aliases
-alias commit="git commit -a"
-alias push="git push"
-alias clone="git clone"
-alias add="git add ."
-alias cpush="commit; push"
+if [ -e "/usr/bin/git" ]; then
+	alias commit="git commit -a"
+	alias push="git push"
+	alias clone="git clone"
+	alias add="git add ."
+	alias cpush="commit; push"
+fi
 
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
