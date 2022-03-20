@@ -122,7 +122,7 @@ const prereqs = [{
 	install: "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
 }, {
 	name        : "BTop",
-	linuxCheck  : snapPath + "btop",
+	linuxCheck  : [snapPath + "btop","/home/linuxbrew/.linuxbrew/bin/btop"],
 	linuxInstall: snapInstall + "btop",
 	macCheck    : brewPath + "btop",
 	macInstall  : brewInstall + "btop",
@@ -136,8 +136,8 @@ const prereqs = [{
 	optional    : true
 }, {
 	name        : "FKill",
-	linuxCheck  : snapPath + "fkill",
-	linuxInstall: snapInstall + "fkill",
+	check  : "/usr/local/bin/fkill",
+	install: "sudo npm install -g fkill-cli",
 	optional    : true
 }, {
 	name        : "Ripgrep",

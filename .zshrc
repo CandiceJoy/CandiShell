@@ -126,6 +126,10 @@ if [ -e "/snap/bin/btop" ]; then
 	alias top="btop"
 fi
 
+if [ -e "/home/linuxbrew/.linuxbrew/bin/btop" ]; then
+	alias top="btop"
+fi
+
 if [ -e "/usr/bin/nano" ]; then
 	alias pico="nano"
 fi
