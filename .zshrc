@@ -17,6 +17,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export ZSH_TMUX_TERM="tmux-256color"
@@ -158,6 +159,11 @@ fi
 if [ -e "/usr/local/bin/tldr" ]; then
 	alias man="tldr"
 	alias manman="/usr/bin/man"
+fi
+
+if [ -e "/opt/sublime_text/sublime_text" ]; then
+	alias sublime="/opt/sublime_text/sublime_text"
+	alias pico="sublime"
 fi
 
 #Git Aliases

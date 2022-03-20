@@ -144,6 +144,11 @@ const prereqs = [{
 	linuxCheck  : aptPath + "rg",
 	linuxInstall: aptInstall + "ripgrep",
 	optional    : true
+}, {
+	name        : "LNav",
+	linuxCheck  : aptPath + "lnav",
+	linuxInstall: aptInstall + "lnav",
+	optional    : true
 },{
 	name        : "NNN",
 	linuxCheck  : aptPath + "nnn",
