@@ -23,6 +23,11 @@ export ZSH_TMUX_TERM="tmux-256color"
 export ZSH_TMUX_UNICODE="true"
 export TERM="xterm-256color"
 export COLORTERM="truecolor"
+
+if [ -e ~/.zshrc.local ]; then
+	source ~/.zshrc.local
+fi
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
