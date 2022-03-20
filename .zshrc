@@ -120,6 +120,10 @@ if [ -e "/usr/bin/exa" ]; then
 	alias ls="exa"
 fi
 
+if [ -e "/home/linuxbrew/.linuxbrew/bin/exa" ]; then
+	alias ls="exa"
+fi
+
 alias cls="clear"
 
 if [ -e "/snap/bin/btop" ]; then

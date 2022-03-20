@@ -44,7 +44,7 @@ const prereqs = [{
 	macInstall  : brewInstall + "zsh"
 }, {
 	name        : "Exa",
-	linuxCheck  : aptPath + "exa",
+	linuxCheck  : [aptPath + "exa","/home/linuxbrew/.linuxbrew/bin/exa"],
 	linuxInstall: aptInstall + "exa",
 	macCheck    : brewPath + "exa",
 	macInstall  : brewInstall + "exa",
