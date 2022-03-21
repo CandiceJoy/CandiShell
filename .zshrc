@@ -132,10 +132,6 @@ if command -v btop; then
 	alias top="btop"
 fi
 
-if command -v btop; then
-	alias top="btop"
-fi
-
 if command -v nano; then
 	alias pico="nano"
 fi
