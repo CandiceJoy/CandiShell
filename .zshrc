@@ -157,41 +157,32 @@ if [ -e "/opt/sublime_text/sublime_text" ]; then
 fi
 
 if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
-	alias pico="/Applications/Sublime Text.app/Contents/MacOS"
+	alias pico="\"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text\""
 fi
 
-if [ -e "/usr/bin/fdfind" ]; then
+if fdfind --version; then
 	alias find="fdfind"
 fi
 
-if [ -e "/opt/homebrew/bin/fd" ]; then
+if fd --version; then
 	alias find="fd"
 fi
 
-if [ -e "/usr/bin/rg" ]; then
+if rg --version; then
 	alias grep="rg"
 fi
 
-if [ -e "/opt/homebrew/bin/rg" ]; then
-	alias grep="rg"
-fi
-
-if [ -e "/usr/bin/batcat" ]; then
+if batcat --version; then
 	alias cat="batcat"
 fi
 
-if [ -e "/opt/homebrew/bin/bat" ]; then
+if bat --version; then
 	alias cat="bat"
 fi
 
-if [ -e "/usr/local/bin/tldr" ]; then
+if tldr --version; then
 	alias man="tldr"
 	alias manman="/usr/bin/man"
-fi
-
-if [ -e "/opt/homebrew/bin/tldr" ]; then
-	alias man="tldr"
-	alais manman="/usr/bin/man"
 fi
 
 if [ -e "/opt/sublime_text/sublime_text" ]; then
