@@ -16,7 +16,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 
 install(){
-  if ! $($1) --version; then
+  if ! command -v $1; then
     $INSTALL $1
   fi
 }
@@ -24,22 +24,22 @@ install(){
 #Mac Prereqs
 if [[ "$OSTYPE" == "darwin"* ]]; then
   #Homebrew
-  if ! brew --version; then
+  if ! command -v brew; then
     wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh
   fi
 
   #Git
-  if ! git --version; then
+  if ! command -v git; then
     $INSTALL git
   fi
 
   #Node
-  if ! node --version; then
+  if ! command -v node; then
     $INSTALL node
   fi
 
   #NPM
-  if ! npm -- version; then
+  if ! command -v npm; then
     $INSTALL npm
   fi
 fi
@@ -47,23 +47,23 @@ fi
 #Debian/Ubuntu Linux Prereqs
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   #APT
-  if ! apt-get update; then
+  if ! command -v apt; then
     echo "Requires APT"
     exit 1
   fi
 
   #Node
-  if ! node --version; then
+  if command -v node; then
     $INSTALL nodejs
   fi
 
   #NPM
-  if ! npm --version; then
+  if command -v npm; then
     $NPM npm
   fi
 
   #Snap
-  if ! snap --version; then
+  if ! command -v snap; then
     $INSTALL snapd
   fi
 fi
@@ -72,7 +72,7 @@ fi
 NODEVERSION=$(node -v | cut -c2-3)
 
 if [ $((NODEVERSION)) -le 15 ]; then
-  if ! n --version; then
+  if ! command -v n; then
     $NPM n
   fi
 
@@ -135,12 +135,12 @@ if [[ OS == "Linux" ]] && ! btop --version; then
 fi
 
 #FKill
-if ! fkill --version; then
+if ! command -v fkill; then
   $NPM fkill
 fi
 
 #RipGrep
-if ! rg --version; then
+if ! command -v rg; then
   $INSTALL ripgrep
 fi
 
@@ -163,7 +163,7 @@ if [[ OS == "Linux" ]] && ! fdfind --version; then
 fi
 
 #TLDR
-if ! tldr --version; then
+if ! command -v tldr; then
   $NPM tldr
 fi
 

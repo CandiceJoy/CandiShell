@@ -164,27 +164,27 @@ if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
 	#alias pico="\"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text\""
 fi
 
-if fdfind --version; then
+if ! command -v fdfind; then
 	alias find="fdfind"
 fi
 
-if fd --version; then
+if ! command -v fd; then
 	alias find="fd"
 fi
 
-if rg --version; then
+if ! command -v rg; then
 	alias grep="rg"
 fi
 
-if batcat --version; then
+if ! command -v batcat; then
 	alias cat="batcat"
 fi
 
-if bat --version; then
+if ! command -v bat; then
 	alias cat="bat"
 fi
 
-if tldr --version; then
+if ! command -v tldr; then
 	alias man="tldr"
 	alias manman="/usr/bin/man"
 fi
