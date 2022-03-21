@@ -271,7 +271,7 @@ function processPrereqs()
 		{
 			processPrereq((prereq.name) ? prereq.name : prereq.macName, (prereq.check) ? prereq.check : prereq.macCheck,
 			              (prereq.install) ? prereq.install : prereq.macInstall,
-			              (prereq.overwrite) ? prereq.overwrite : false, (prereq.optional) ? preqreq.optional : false);
+			              (prereq.overwrite) ? prereq.overwrite : false, (prereq.optional) ? prereq.optional : false);
 		}
 		else if((prereq.name || prereq.linuxName) && (prereq.check || prereq.linuxCheck) &&
 		        (prereq.install || prereq.linuxInstall))
