@@ -157,7 +157,11 @@ if [ -e "/opt/sublime_text/sublime_text" ]; then
 fi
 
 if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
-	alias pico="\"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text\""
+
+	function pico() {
+		"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text" $* &
+	}
+	#alias pico="\"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text\""
 fi
 
 if fdfind --version; then

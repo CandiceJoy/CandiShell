@@ -42,7 +42,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   if ! npm -- version; then
     $INSTALL npm
   fi
-then
+fi
 
 #Debian/Ubuntu Linux Prereqs
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
