@@ -122,23 +122,11 @@ export ARCHFLAGS="-arch x86_64"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #alias exit="tmux detach; exit"
 
-if [ command -v exa ]; then
-	alias ls="exa"
-fi
-
-if command -v exa; then
-	alias ls="exa"
-fi
-
 if command -v exa; then
 	alias ls="exa"
 fi
 
 alias cls="clear"
-
-if command -v btop; then
-	alias top="btop"
-fi
 
 if command -v btop; then
 	alias top="btop"
@@ -202,7 +190,7 @@ source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 if command -v brew; then
-	BREWPATH=${command -v brew}
+	BREWPATH=$(command -v brew)
 	export PATH="$BREWPATH:$PATH"
 fi
 
