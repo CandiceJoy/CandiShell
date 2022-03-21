@@ -122,71 +122,41 @@ export ARCHFLAGS="-arch x86_64"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #alias exit="tmux detach; exit"
 
-if [ -e "/usr/bin/exa" ]; then
+if [ command -v exa ]; then
 	alias ls="exa"
 fi
 
-if [ -e "/home/linuxbrew/.linuxbrew/bin/exa" ]; then
+if command -v exa; then
 	alias ls="exa"
 fi
 
-if [ -e "/opt/homebrew/bin/exa" ]; then
+if command -v exa; then
 	alias ls="exa"
 fi
 
 alias cls="clear"
 
-if [ -e "/snap/bin/btop" ]; then
+if command -v btop; then
 	alias top="btop"
 fi
 
-if [ -e "/opt/homebrew/bin/btop" ]; then
+if command -v btop; then
 	alias top="btop"
 fi
 
-if [ -e "/home/linuxbrew/.linuxbrew/bin/btop" ]; then
+if command -v btop; then
 	alias top="btop"
 fi
 
-if [ -e "/usr/bin/nano" ]; then
+if command -v nano; then
 	alias pico="nano"
 fi
 
-if [ -e "/opt/sublime_text/sublime_text" ]; then
-	alias pico="/opt/sublime_text/sublime_text"
-fi
-
 if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
-
 	function pico() {
 		"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text" $* &
 	}
 	#alias pico="\"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text\""
-fi
-
-if ! command -v fdfind; then
-	alias find="fdfind"
-fi
-
-if ! command -v fd; then
-	alias find="fd"
-fi
-
-if ! command -v rg; then
-	alias grep="rg"
-fi
-
-if ! command -v batcat; then
-	alias cat="batcat"
-fi
-
-if ! command -v bat; then
-	alias cat="bat"
-fi
-
-if ! command -v tldr; then
-	alias man="tldr"
-	alias manman="/usr/bin/man"
 fi
 
 if [ -e "/opt/sublime_text/sublime_text" ]; then
@@ -194,8 +164,33 @@ if [ -e "/opt/sublime_text/sublime_text" ]; then
 	alias pico="sublime"
 fi
 
+if command -v fdfind; then
+	alias find="fdfind"
+fi
+
+if command -v fd; then
+	alias find="fd"
+fi
+
+if command -v rg; then
+	alias grep="rg"
+fi
+
+if command -v batcat; then
+	alias cat="batcat"
+fi
+
+if command -v bat; then
+	alias cat="bat"
+fi
+
+if command -v tldr; then
+	alias man="tldr"
+	alias manman="/usr/bin/man"
+fi
+
 #Git Aliases
-if [ -e "/usr/bin/git" ]; then
+if command -v git; then
 	alias commit="git commit -a"
 	alias push="git push"
 	alias clone="git clone"
@@ -206,8 +201,8 @@ fi
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-if [ -e "/home/linuxbrew/.linuxbrew/bin" ]; then
-	export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+if command -v brew; then
+	export PATH="${command -v brew}:$PATH"
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
