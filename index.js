@@ -143,11 +143,15 @@ const prereqs = [{
 	name        : "Ripgrep",
 	linuxCheck  : aptPath + "rg",
 	linuxInstall: aptInstall + "ripgrep",
+	macCheck: brewPath+"ripgrep",
+	macInstall: brewInstall+"ripgrep",
 	optional    : true
 }, {
 	name        : "LNav",
 	linuxCheck  : aptPath + "lnav",
 	linuxInstall: aptInstall + "lnav",
+	macCheck: brewPath+"lnav",
+	macInstall: brewInstall+"lnav",
 	optional    : true
 },{
 	name        : "NNN",
@@ -160,11 +164,15 @@ const prereqs = [{
 	name        : "Bat",
 	linuxCheck  : aptPath + "batcat",
 	linuxInstall: aptInstall + "bat",
+	macCheck: brewPath+"bat",
+	macInstall: brewInstall+"bat",
 	optional    : true
 }, {
 	name        : "FD",
 	linuxCheck  : aptPath + "fdfind",
 	linuxInstall: aptInstall + "fd-find",
+	macCheck: brewPath+"fd",
+	macInstall: brewPath+"fd",
 	optional    : true
 }, {
 	name        : "TLDR",

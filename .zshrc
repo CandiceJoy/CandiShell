@@ -130,9 +130,17 @@ if [ -e "/home/linuxbrew/.linuxbrew/bin/exa" ]; then
 	alias ls="exa"
 fi
 
+if [ -e "/opt/homebrew/bin/exa" ]; then
+	alias ls="exa"
+fi
+
 alias cls="clear"
 
 if [ -e "/snap/bin/btop" ]; then
+	alias top="btop"
+fi
+
+if [ -e "/opt/homebrew/bin/btop" ]; then
 	alias top="btop"
 fi
 
@@ -144,11 +152,27 @@ if [ -e "/usr/bin/nano" ]; then
 	alias pico="nano"
 fi
 
+if [ -e "/opt/sublime_text/sublime_text" ]; then
+	alias pico="/opt/sublime_text/sublime_text"
+fi
+
+if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
+	alias pico="/Applications/Sublime Text.app/Contents/MacOS"
+fi
+
 if [ -e "/usr/bin/fdfind" ]; then
 	alias find="fdfind"
 fi
 
+if [ -e "/opt/homebrew/bin/fd" ]; then
+	alias find="fd"
+fi
+
 if [ -e "/usr/bin/rg" ]; then
+	alias grep="rg"
+fi
+
+if [ -e "/opt/homebrew/bin/rg" ]; then
 	alias grep="rg"
 fi
 
@@ -156,9 +180,18 @@ if [ -e "/usr/bin/batcat" ]; then
 	alias cat="batcat"
 fi
 
+if [ -e "/opt/homebrew/bin/bat" ]; then
+	alias cat="bat"
+fi
+
 if [ -e "/usr/local/bin/tldr" ]; then
 	alias man="tldr"
 	alias manman="/usr/bin/man"
+fi
+
+if [ -e "/opt/homebrew/bin/tldr" ]; then
+	alias man="tldr"
+	alais manman="/usr/bin/man"
 fi
 
 if [ -e "/opt/sublime_text/sublime_text" ]; then
@@ -177,7 +210,10 @@ fi
 
 source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
+if [ -e "/home/linuxbrew/.linuxbrew/bin" ]; then
+	export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
