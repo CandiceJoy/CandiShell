@@ -1,5 +1,18 @@
 #!/bin/bash
 
+git config --global core.autocrlf false
+git config --global core.eol lf
+rm -rf ~/candishell
+git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
+
+if ! cmp -s ~/candishell.sh ~/candishell/candishell.sh
+then
+  #cp ~/candishell/candishell.sh ~/candishell.sh
+  #rm -rf ~/candishell
+  echo "Script updated; please re-rerun"
+  #exit 0
+fi
+
 BREW="sudo brew install "
 APT="sudo apt-get install "
 SNAP="sudo snap install "
@@ -16,6 +29,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 fi
 
 install(){
+  echo $1
   if ! command -v $1; then
     $INSTALL $1
   fi
@@ -83,19 +97,6 @@ if [ $((NODEVERSION)) -le 15 ]; then
     echo "You will have to exit the shell and try again."
     exit 0
   fi
-fi
-
-git config --global core.autocrlf false
-git config --global core.eol lf
-rm -rf ~/candishell
-git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
-
-if ! cmp -s ~/candishell.sh ~/candishell/candishell.sh
-then
-  cp ~/candishell/candishell.sh ~/candishell.sh
-  rm -rf ~/candishell
-  echo "Script updated; please re-rerun"
-  exit 0
 fi
 
 #npm --prefix ~/candishell i
