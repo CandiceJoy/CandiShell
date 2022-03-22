@@ -116,22 +116,22 @@ install "lnav"
 install "nnn"
 
 #Reattach to user namespace for Mac - clipboard syncing for tmux
-if [[ OS == "Mac" ]] && ! reattach-to-user-namespace --version; then
+if [[ $OS == "Mac" ]] && ! reattach-to-user-namespace --version; then
   $INSTALL reattach-to-user-namespace
 fi
 
 #XClip for Linux
-if [[ OS == "Linux" ]] && ! xclip --version; then
+if [[ $OS == "Linux" ]] && ! xclip --version; then
   $INSTALL xclip
 fi
 
 #BTop for Mac
-if [[ OS == "Mac" ]] && ! btop --version; then
+if [[ $OS == "Mac" ]] && ! btop --version; then
   $INSTALL btop
 fi
 
 #BTop for Linux
-if [[ OS == "Linux" ]] && ! btop --version; then
+if [[ $OS == "Linux" ]] && ! btop --version; then
   $SNAP btop
 fi
 
@@ -146,20 +146,20 @@ if ! command -v rg; then
 fi
 
 #Bat for Mac
-if [[ OS == "Mac" ]] && ! bat --version; then
+if [[ $OS == "Mac" ]] && ! bat --version; then
   $INSTALL bat
 fi
 
 #Bat for Linux
-if [[ OS == "Linux" ]] && ! batcat --version; then
+if [[ $OS == "Linux" ]] && ! batcat --version; then
   $INSTALL bat
 fi
 
-if [[ OS == "Mac" ]] && ! fd --version; then
+if [[ $OS == "Mac" ]] && ! fd --version; then
   $INSTALL fd
 fi
 
-if [[ OS == "Linux" ]] && ! fdfind --version; then
+if [[ $OS == "Linux" ]] && ! fdfind --version; then
   $INSTALL fd-find
 fi
 
