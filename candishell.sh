@@ -139,7 +139,7 @@ installnoexec(){
 
 #Mac Prereqs
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  install "Homebrew" "brew" "wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh"
+  install "Homebrew" "brew" "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)\""
   install "Git - Mac" "git"
   install "NodeJS - Mac" "node"
   install "NPM - Mac" "npm"
@@ -157,6 +157,26 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 
   install "NodeJS - Linux" "node" "$INSTALL nodejs"
   install "NPM - Linux" "npm"
+
+  if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! checkcommand "brew"; then
+    echo -e "${YELLOW}Brew installed but not in path; manually setting it up for this shell${RESET}"
+    PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+    BREW="/home/linuxbrew/.linuxbrew/bin/brew install"
+    #PATH=$(npm bin -g):$PATH
+  else
+    if [ ! command -v brew ]; then
+      wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh
+    fi
+
+    if [ -f /home/linuxbrew ] && [ ! ls /home/linuxbrew ]; then
+      sudo groupadd brew; sudo chgrp -R brew /home/linuxbrew; sudo chmod 754 /home/linuxbrew; sudo usermod -a -G brew $USER
+    fi
+
+    if [ ! -f /home/linuxbrew ]; then
+      NOBREW=true
+    fi
+  fi
+
 fi
 
 install "N" "n" "$NPM n"
@@ -175,26 +195,6 @@ if [ $((NODEVERSION)) -le 15 ]; then
     echo -e "${GREEN}Node version good; continuing${RESET}"
   fi
 fi
-
-if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! checkcommand "brew"; then
-  echo -e "${YELLOW}Brew installed but not in path; manually setting it up for this shell${RESET}"
-  PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-  BREW="/home/linuxbrew/.linuxbrew/bin/brew install"
-  #PATH=$(npm bin -g):$PATH
-else
-  if [ ! command -v brew ]; then
-    wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh
-  fi
-
-  if [[ $OS == "Linux" ]] && [ -f /home/linuxbrew ] && [ ! ls /home/linuxbrew ]; then
-    sudo groupadd brew; sudo chgrp -R brew /home/linuxbrew; sudo chmod 754 /home/linuxbrew; sudo usermod -a -G brew $USER
-  fi
-
-  if [[ $OS == "Linux" ]] && [ ! -f /home/linuxbrew ]; then
-    NOBREW=true
-  fi
-fi
-
 
 if [[ $OS == "Mac" ]]; then
   install "Reattach to User Namespace - Mac" "reattach-to-user-namespace"
