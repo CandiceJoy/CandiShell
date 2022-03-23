@@ -25,6 +25,10 @@ export ZSH_TMUX_UNICODE="true"
 export TERM="xterm-256color"
 export COLORTERM="truecolor"
 
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! command -v brew; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 if [ -e ~/.zshrc.local ]; then
 	source ~/.zshrc.local
 fi

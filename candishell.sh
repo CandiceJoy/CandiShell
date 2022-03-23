@@ -1,22 +1,46 @@
 #!/bin/bash
 
+RESET="\e[0m"
+RED="\e[31m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+GREEN="\e[32m"
+MAGENTA="\e[35m"
+CYAN="\e[36m"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    noupdate)
+      NOUPDATE=true
+      echo -e "${YELLOW}noupdate detected; will not update script${RESET}"
+      ;;
+    *)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+  shift
+done
+
 git config --global core.autocrlf false
 git config --global core.eol lf
-rm -rf ~/candishell
-git clone https://github.com/CandiceJoy/CandiShell.git ~/candishell
+rm -rf $HOME/candishell
+git clone https://github.com/CandiceJoy/CandiShell.git $HOME/candishell
 
-if ! cmp -s ~/candishell.sh ~/candishell/candishell.sh
-then
-  #cp ~/candishell/candishell.sh ~/candishell.sh
-  #rm -rf ~/candishell
-  echo "Script updated; please re-rerun"
-  #exit 0
+if ! $NOUPDATE; then
+  if ! cmp -s $HOME/candishell.sh $HOME/candishell/candishell.sh
+  then
+    cp $HOME/candishell/candishell.sh $HOME/candishell.sh
+    rm -rf $HOME/candishell
+    echo -e "${CYAN}Script updated; please re-rerun${RESET}"
+    exit 0
+  fi
 fi
 
-BREW="sudo brew install "
-APT="sudo apt-get install "
-SNAP="sudo snap install "
-NPM="sudo npm -g i "
+BREW="brew install"
+APT="sudo apt install"
+SNAP="sudo snap install"
+NPM="sudo npm -g i"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   INSTALL=$BREW
@@ -28,196 +52,163 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   OS="Linux"
 fi
 
+checkcommand() {
+  command="$1"
+
+  if command -v "$1"; then
+    return 0;
+  else
+    return 1;
+  fi
+}
+
 install(){
-  echo $1
-  if ! command -v $1; then
-    $INSTALL $1
+  name="$1"
+  check="$2"
+
+  if [ $# -ge 3 ]; then
+    installcommand="$3"
+  else
+    installcommand="$INSTALL $check"
+  fi
+
+  echo -e "${BLUE}Checking $name${RESET}"
+
+  if ! checkcommand "$check"; then
+    echo -e "${YELLOW}Missing; Installing${RESET}"
+    echo $installcommand
+    eval "$installcommand"
+  if ! checkcommand "$check"; then
+      echo -e "${RED}Installation failed${RESET}"
+      exit 1
+    fi
+  else
+    echo -e "${GREEN}Found${RESET}"
+  fi
+}
+
+update(){
+  name="$1"
+  src="$HOME/candishell/$2"
+
+  if [ ! "$3" ]; then
+    dest="$HOME/$2"
+  else
+    dest="$HOME/$3"
+  fi
+  
+  echo -e "${BLUE}Checking $name${RESET}"
+
+  if ! cmp -s "$src" "$dest"; then
+    echo -e "${YELLOW}updating${RESET}"
+    runme="cp $src $dest"
+    eval "$runme"
+  else
+    echo -e "${GREEN}Already latest version${RESET}"
+  fi
+}
+
+installnoexec(){
+  name="$1"
+  check="$HOME/$2"
+  installnoexeccommand="$3"
+
+  echo -e "${BLUE}Checking $name${RESET}"
+
+  if [ ! -d $check ]; then
+    echo -e "${YELLOW}Missing; Installing${RESET}"
+    eval "$installnoexeccommand"
+  else
+    echo -e "${GREEN}Found${RESET}"
   fi
 }
 
 #Mac Prereqs
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  #Homebrew
-  if ! command -v brew; then
-    wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh
-  fi
-
-  #Git
-  if ! command -v git; then
-    $INSTALL git
-  fi
-
-  #Node
-  if ! command -v node; then
-    $INSTALL node
-  fi
-
-  #NPM
-  if ! command -v npm; then
-    $INSTALL npm
-  fi
+  install "Git - Mac" "git"
+  install "NodeJS - Mac" "node"
+  install "NPM - Mac" "npm"
 fi
 
 #Debian/Ubuntu Linux Prereqs
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   #APT
   if ! command -v apt; then
-    echo "Requires APT"
+    echo -e "${MAGENTA}Requires APT${RESET}"
     exit 1
+  else
+    echo -e "${GREEN}APT Found; continuing${RESET}"
   fi
 
-  #Node
-  if command -v node; then
-    $INSTALL nodejs
-  fi
-
-  #NPM
-  if command -v npm; then
-    $NPM npm
-  fi
-
-  #Snap
-  if ! command -v snap; then
-    $INSTALL snapd
-  fi
+  install "NodeJS - Linux" "node" "$INSTALL nodejs"
+  install "NPM - Linux" "npm"
 fi
+
+install "N" "n" "$NPM n"
 
 #Universal Prereqs - Node Version
 NODEVERSION=$(node -v | cut -c2-3)
 
 if [ $((NODEVERSION)) -le 15 ]; then
-  if ! command -v n; then
-    $NPM n
-  fi
-
   sudo n stable
 
   NODEVERSION=$(node -v | cut -c2-3)
   if [ $((NODEVERSION)) -le 15 ]; then
-    echo "You will have to exit the shell and try again."
+    echo -e "${CYAN}You will have to exit the shell and try again.${RESET}"
     exit 0
+  else
+    echo -e "${GREEN}Node version good; continuing${RESET}"
   fi
 fi
 
-#npm --prefix ~/candishell i
-#npm --prefix ~/candishell start $1
-
-#Start Script Replacement
-install "zsh"
-install "exa"
-install "dos2unix"
-install "tmux"
-install "autojump"
-install "fzf"
-install "tree"
-install "curl"
-install "iftop"
-install "lnav"
-install "nnn"
-
-#Reattach to user namespace for Mac - clipboard syncing for tmux
-if [[ $OS == "Mac" ]] && ! reattach-to-user-namespace --version; then
-  $INSTALL reattach-to-user-namespace
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! checkcommand "brew"; then
+  echo -e "${YELLOW}Brew installed but not in path; manually setting it up for this shell${RESET}"
+  PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+  BREW="/home/linuxbrew/.linuxbrew/bin/brew install"
+  #PATH=$(npm bin -g):$PATH
+else
+  install "Homebrew" "brew" "wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; ~/install.sh; rm ~/install.sh"
 fi
 
-#XClip for Linux
-if [[ $OS == "Linux" ]] && ! xclip --version; then
-  $INSTALL xclip
+if [[ $OS == "Mac" ]]; then
+  install "Reattach to User Namespace - Mac" "reattach-to-user-namespace"
+  install "BTop - Mac" "btop"
+  install "Bat - Mac" "bat"
+  install "FD - Mac" "fd"
+  install "RipGrep - Mac" "rg" "$INSTALL ripgrep"
 fi
 
-#BTop for Mac
-if [[ $OS == "Mac" ]] && ! btop --version; then
-  $INSTALL btop
+if [[ $OS == "Linux" ]]; then
+  install "XClip - Linux" "xclip"
+  install "BTop - Linux" "btop" "$BREW btop"
+  install "FD - Linux" "fdfind" "$INSTALL fd-find"
+  install "RipGrep - Linux" "rg" "sudo apt install -o Dpkg::Options::=\"--force-overwrite\" bat ripgrep"
+  install "Bat - Linux" "batcat" "sudo apt install -o Dpkg::Options::=\"--force-overwrite\" bat ripgrep"
 fi
 
-#BTop for Linux
-if [[ $OS == "Linux" ]] && ! btop --version; then
-  $SNAP btop
-fi
+install "ZSH" "zsh"
+install "Exa" "exa" "$BREW exa"
+install "Dos2Unix" "dos2unix"
+install "TMUX" "tmux"
+install "AutoJump" "autojump"
+install "FZF" "fzf"
+install "Tree" "tree"
+install "cURL" "curl"
+install "IFTop" "iftop"
+install "LNav" "lnav"
+install "NNN" "nnn"
+install "FKill" "fkill" "$NPM fkill-cli"
+install "TLDR" "tldr" "$NPM tldr"
+installnoexec "Oh My ZSH" ".oh-my-zsh" "wget -O ~/install.sh https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh; chmod a+x ~/install.sh; ~/install.sh --unattended; rm ~/install.sh; sudo chsh -s \"/usr/bin/zsh\" \"$USER\""
+installnoexec "ZSH Syntax Highlighting" ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting" "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+installnoexec "ZSH Autosuggestions" ".oh-my-zsh/custom/plugins/zsh-autosuggestions" "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+installnoexec "Powerline 10k Theme" ".oh-my-zsh/custom/themes/powerlevel10k" "git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k"
+installnoexec "TMUX Plugin Manager" ".tmux/plugins/tpm" "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+update "ZSH Config" ".zshrc"
+update "TMUX Config" ".tmux.conf"
+update "P10K Settings" ".p10k.zsh"
+update "Remote Change Script" "remote.sh"
+update "SSH Config" "config" ".ssh/config"
 
-#FKill
-if ! command -v fkill; then
-  $NPM fkill
-fi
-
-#RipGrep
-if ! command -v rg; then
-  $INSTALL ripgrep
-fi
-
-#Bat for Mac
-if [[ $OS == "Mac" ]] && ! bat --version; then
-  $INSTALL bat
-fi
-
-#Bat for Linux
-if [[ $OS == "Linux" ]] && ! batcat --version; then
-  $INSTALL bat
-fi
-
-if [[ $OS == "Mac" ]] && ! fd --version; then
-  $INSTALL fd
-fi
-
-if [[ $OS == "Linux" ]] && ! fdfind --version; then
-  $INSTALL fd-find
-fi
-
-#TLDR
-if ! command -v tldr; then
-  $NPM tldr
-fi
-
-#Oh My ZSH
-if [ ! -d ~/.oh-my-zsh/ ]; then
-  wget -O ~/install.sh https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh; chmod a+x ~/install.sh; ~/install.sh --unattended; rm ~/install.sh; sudo chsh -s "/usr/bin/zsh" "$USER"
-fi
-
-#ZSH Syntax Highlighting
-if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/ ]; then
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-fi
-
-#ZSH Autosuggestions
-if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/ ]; then
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-fi
-
-#Powerline 10k Theme
-if [ ! -d ~/.oh-my-zsh/custom/themes/powerlevel10k ]; then
-  git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
-fi
-
-#TMUX Plugin Manager
-if [ ! -d ~/.tmux/plugins/tpm/ ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi
-
-#ZSHRC
-if ! cmp -s ~/.zshrc ~/candishell/.zshrc; then
-  cp ~/candishell/.zshrc ~/.zshrc
-fi
-
-#TMUX Conf
-if ! cmp -s ~/.tmux.conf ~/candishell/.tmux.conf; then
-  cp ~/candishell/.tmux.conf ~/.tmux.conf
-fi
-
-#P10k Settings
-if ! cmp -s ~/.p10k.zsh ~/candishell/.p10k.zsh; then
-  cp ~/candishell/.p10k.zsh ~/.p10k.zsh
-fi
-
-#Remote Change Script
-if ! cmp -s ~/remote.sh ~/candishell/.remote.sh; then
-  cp ~/candishell/remote.sh ~/remote.sh
-fi
-
-#SSH Config
-if ! cmp -s ~/.ssh/config ~/candishell/config; then
-  cp ~/candishell/config ~/.ssh/config
-fi
-#End Script Replacement
-
-rm -rf ~/candishell
-echo "Run source ~/.zshrc to update"
+#rm -rf $HOME/candishell
+echo -e "${CYAN}Run source ~/.zshrc to update${RESET}"
