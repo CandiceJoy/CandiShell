@@ -179,6 +179,8 @@ fi
 
 #Git Aliases
 if command -v git; then
+	git config --global user.email "candice@candicejoy.com"
+	git config --global user.name "CandiceJoy"
 	alias commit="git commit -a"
 	alias push="git push"
 	alias clone="git clone"
