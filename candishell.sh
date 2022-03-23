@@ -224,5 +224,5 @@ update "P10K Settings" ".p10k.zsh" ".p10k.zsh" "true"
 update "Remote Change Script" "remote.sh"
 update "SSH Config" "config" ".ssh/config"
 
-#rm -rf $HOME/candishell
+rm -rf $HOME/candishell
 echo -e "${CYAN}Run source ~/.zshrc to update${RESET}"
