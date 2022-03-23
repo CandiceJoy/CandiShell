@@ -167,7 +167,7 @@ if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! checkcommand "brew"; then
   BREW="/home/linuxbrew/.linuxbrew/bin/brew install"
   #PATH=$(npm bin -g):$PATH
 else
-  install "Homebrew" "brew" "wget -O ~/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x ~/install.sh; sudo ~/install.sh; rm ~/install.sh"
+  install "Homebrew" "brew" "wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh"
 fi
 
 if [[ $OS == "Mac" ]]; then
