@@ -182,6 +182,10 @@ if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! checkcommand "brew"; then
   #PATH=$(npm bin -g):$PATH
 else
   install "Homebrew" "brew" "wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh"
+
+  if [[ $OS == "Linux" ]] && [ -f /home/linuxbrew ] && [ ! ls /home/linuxbrew ]; then
+    sudo groupadd brew; sudo chgrp -R brew /home/linuxbrew; sudo chmod 754 /home/linuxbrew; sudo usermod -a -G brew $USER
+  fi
 fi
 
 if [[ $OS == "Mac" ]]; then
