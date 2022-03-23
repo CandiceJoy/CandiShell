@@ -14,6 +14,10 @@ while [[ $# -gt 0 ]]; do
       NOUPDATE=true
       echo -e "${YELLOW}noupdate detected; will not update script${RESET}"
       ;;
+    force)
+      FORCE=true
+      echo -e "${YELLOW}force detected; will overwrite all configs${RESET}"
+      ;;
     *)
       echo "Unknown option $1"
       exit 1
@@ -66,7 +70,7 @@ install(){
   name="$1"
   check="$2"
 
-  if [ $# -ge 3 ]; then
+  if [ "$3" ]; then
     installcommand="$3"
   else
     installcommand="$INSTALL $check"
@@ -96,13 +100,23 @@ update(){
   else
     dest="$HOME/$3"
   fi
-  
+
+  if [ "$4" ]; then
+    dontoverwrite=true
+  else
+    unset dontoverwrite
+  fi
+
   echo -e "${BLUE}Checking $name${RESET}"
 
   if ! cmp -s "$src" "$dest"; then
-    echo -e "${YELLOW}updating${RESET}"
-    runme="cp $src $dest"
-    eval "$runme"
+    if [ ! "$dontoverwrite" ] || [ "$FORCE" ]; then
+      echo -e "${YELLOW}updating${RESET}"
+      runme="cp $src $dest"
+      eval "$runme"
+    else
+      echo -e "${YELLOW}Skipping${RESET}"
+    fi
   else
     echo -e "${GREEN}Already latest version${RESET}"
   fi
@@ -206,7 +220,7 @@ installnoexec "Powerline 10k Theme" ".oh-my-zsh/custom/themes/powerlevel10k" "gi
 installnoexec "TMUX Plugin Manager" ".tmux/plugins/tpm" "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 update "ZSH Config" ".zshrc"
 update "TMUX Config" ".tmux.conf"
-update "P10K Settings" ".p10k.zsh"
+update "P10K Settings" ".p10k.zsh" ".p10k.zsh" "true"
 update "Remote Change Script" "remote.sh"
 update "SSH Config" "config" ".ssh/config"
 
