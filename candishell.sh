@@ -139,6 +139,7 @@ installnoexec(){
 
 #Mac Prereqs
 if [[ "$OSTYPE" == "darwin"* ]]; then
+  install "Homebrew" "brew" "wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh"
   install "Git - Mac" "git"
   install "NodeJS - Mac" "node"
   install "NPM - Mac" "npm"
