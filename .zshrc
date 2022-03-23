@@ -127,7 +127,11 @@ export ARCHFLAGS="-arch x86_64"
 #alias exit="tmux detach; exit"
 
 if command -v exa; then
-	alias ls="exa"
+	alias ls="exa --icons"
+	alias lsall="exa -alg --icons"
+else
+	alias ls="ls --color"
+	alias lsall="ls -al"
 fi
 
 alias cls="clear"
