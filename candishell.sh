@@ -181,12 +181,19 @@ if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! checkcommand "brew"; then
   BREW="/home/linuxbrew/.linuxbrew/bin/brew install"
   #PATH=$(npm bin -g):$PATH
 else
-  install "Homebrew" "brew" "wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh"
+  if [ ! command -v brew ]; then
+    wget -O $HOME/install.sh https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh; chmod a+x $HOME/install.sh; $HOME/install.sh; rm $HOME/install.sh
+  fi
 
   if [[ $OS == "Linux" ]] && [ -f /home/linuxbrew ] && [ ! ls /home/linuxbrew ]; then
     sudo groupadd brew; sudo chgrp -R brew /home/linuxbrew; sudo chmod 754 /home/linuxbrew; sudo usermod -a -G brew $USER
   fi
+
+  if [[ $OS == "Linux" ]] && [ ! -f /home/linuxbrew ]; then
+    NOBREW=true
+  fi
 fi
+
 
 if [[ $OS == "Mac" ]]; then
   install "Reattach to User Namespace - Mac" "reattach-to-user-namespace"
@@ -205,7 +212,11 @@ if [[ $OS == "Linux" ]]; then
 fi
 
 install "ZSH" "zsh"
-install "Exa" "exa" "$BREW exa"
+
+if [ ! "$NOBREW" ]; then
+  install "Exa" "exa" "$BREW exa"
+fi
+
 install "Dos2Unix" "dos2unix"
 install "TMUX" "tmux"
 install "AutoJump" "autojump"
