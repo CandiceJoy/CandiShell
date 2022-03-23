@@ -31,7 +31,7 @@ git config --global core.eol lf
 rm -rf $HOME/candishell
 git clone https://github.com/CandiceJoy/CandiShell.git $HOME/candishell
 
-if [ ! $NOUPDATE -eq true ]; then
+if [ ! "$NOUPDATE" ]; then
   if ! cmp -s $HOME/candishell.sh $HOME/candishell/candishell.sh
   then
     cp $HOME/candishell/candishell.sh $HOME/candishell.sh
