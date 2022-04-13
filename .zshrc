@@ -168,6 +168,14 @@ if [ -e "/opt/sublime_text/sublime_text" ]; then
 	alias pico="sublime"
 fi
 
+if command -v python3; then
+	alias pip="python3 -m pip"
+fi
+
+if command -v python; then
+	alias pip="python -m pip"
+fi
+
 if command -v fdfind; then
 	alias find="fdfind"
 fi
