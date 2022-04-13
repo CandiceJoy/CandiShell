@@ -201,7 +201,7 @@ if command -v git; then
 	alias push="git push"
 	alias clone="git clone"
 	alias add="git add ."
-	alias cpush="commit; push"
+	alias cpush="git add .; commit; push"
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -226,3 +226,7 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export SSH_AUTH_SOCK=/Users/candice/Library/Containers/org.hejki.osx.sshce.agent/Data/socket.ssh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
