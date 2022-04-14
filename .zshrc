@@ -170,9 +170,7 @@ fi
 
 if command -v python3; then
 	alias pip="python3 -m pip"
-fi
-
-if command -v python; then
+elif command -v python; then
 	alias pip="python -m pip"
 fi
 
