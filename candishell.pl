@@ -322,6 +322,7 @@ install_noexec("ZSH Syntax Highlighting",".oh-my-zsh/custom/plugins/zsh-syntax-h
 install_noexec("ZSH Autosuggestions",".oh-my-zsh/custom/plugins/zsh-autosuggestions","git clone https://github.com/zsh-users/zsh-autosuggestions \${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions");
 install_noexec("Powerline 10k Theme",".oh-my-zsh/custom/themes/powerlevel10k","git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k");
 install_noexec("TMUX Plugin Manager",".tmux/plugins/tpm","git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm");
+install_noexec("Nano Highlighting",".nano","curl https://raw.githubusercontent.com/scopatz/nanorc/master/install.sh | sh");
 update("ZSH Config",".zshrc");
 update("TMUX Config",".tmux.conf");
 update("P10K Settings",".p10k.zsh",".p10k.zsh","true");

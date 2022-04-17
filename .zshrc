@@ -157,8 +157,8 @@ if command -v nano; then
 fi
 
 if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
-	function pico() {
-		"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text" $* &
+	function sublime() {
+		"/Applications/Sublime Text.app/Contents/MacOS/sublime_text" $* &
 	}
 	#alias pico="\"/Applications/Sublime Text.app/Contents/MacOS/Sublime_Text\""
 fi
