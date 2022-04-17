@@ -39,6 +39,7 @@ my $noupdate = 0;
 my $force = 0;
 my $nobrew = 0;
 my $no_cleanup = 0;
+my $debug = 0;
 
 for( @ARGV )
 {
@@ -59,6 +60,11 @@ for( @ARGV )
 	{
 		$no_cleanup = 1;
 		print("${yellow}--no-cleanup detected; will not clean up$end");
+	}
+	elsif( $lc_arg eq "--debug" )
+	{
+		$debug = 1;
+		print("${yellow}--debug detected; enabling debug mode$end");
 	}
 	else
 	{
@@ -133,6 +139,11 @@ sub install
 		$install_command = $install;
 	}
 
+	if( $debug )
+	{
+		print("-----\nInstall\nname: $name\ncheck: $check\ninstall command: $install_command\n");
+	}
+
 	print( $blue."Checking $name$reset\n" );
 
 	if( !check_command( $check ) )
@@ -179,7 +190,11 @@ sub update
 		$dontoverwrite = 0;
 	}
 
-	print("src: $src\ndest: $dest\nname: $name\ndontoverwrite: $dontoverwrite\n");
+	if( $debug )
+	{
+		print("-----\nUpdate\nsrc: $src\ndest: $dest\nname: $name\ndontoverwrite: $dontoverwrite\n");
+	}
+	
 	print( "${blue}Checking $name$end" );
 
 	if( compare( $src, $dest ) )
@@ -205,6 +220,11 @@ sub install_noexec
 	my $name = $_[0];
 	my $check = "$home/$_[1]";
 	my $install_command = $_[2];
+
+	if( $debug )
+	{
+		print("-----\nInstall NoExec\nname: $name\ncheck: $check\ninstall command: $install_command\n");
+	}
 
 	print( "${blue}Checking $name$end" );
 
