@@ -89,6 +89,7 @@ if( !$noupdate )
 		`cp $home/candishell/candishell.pl $home/candishell.pl`;
 		cleanup;
 		print "${cyan}Script updated; please re-rerun$end";
+		exit(0);
 	}
 }
 
