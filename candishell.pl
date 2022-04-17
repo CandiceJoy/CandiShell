@@ -13,11 +13,6 @@ sub color
 	return "\e[".$num."m";
 }
 
-sub cleanup
-{
-	`rm -rf $home/candishell`;
-}
-
 sub check_command
 {
 	my $cmd = $_[0];
@@ -43,6 +38,7 @@ my $cyan = color 36;
 my $noupdate = 0;
 my $force = 0;
 my $nobrew = 0;
+my $no_cleanup = 0;
 
 for( @ARGV )
 {
@@ -59,10 +55,23 @@ for( @ARGV )
 		$force = 1;
 		print("${yellow}--force detected; will overwrite configs$end");
 	}
+	elsif( $lc_arg eq "--no-cleanup" )
+	{
+		$no_cleanup = 1;
+		print("${yellow}--no-cleanup detected; will not clean up$end");
+	}
 	else
 	{
 		print( "Unidentified parameter: $arg$end" );
 		exit 0;
+	}
+}
+
+sub cleanup
+{
+	if( !$no_cleanup )
+	{
+		`rm -rf $home/candishell`;
 	}
 }
 
@@ -77,7 +86,7 @@ if( $^O eq "darwin" )
 
 `git config --global core.autocrlf false`;
 `git config --global core.eol lf`;
-`rm -rf \$HOME/candishell`;
+cleanup;
 `git clone https://github.com/CandiceJoy/CandiShell.git $home/candishell`;
 
 if( !$noupdate )
@@ -170,6 +179,7 @@ sub update
 		$dontoverwrite = 0;
 	}
 
+	print("src: $src\ndest: $dest\nname: $name\ndontoverwrite: $dontoverwrite\n");
 	print( "${blue}Checking $name$end" );
 
 	if( compare( $src, $dest ) )
@@ -330,5 +340,5 @@ update("P10K Settings",".p10k.zsh",".p10k.zsh","true");
 update("Remote Change Script","remote.sh");
 update("SSH Config","config",".ssh/config");
 
-`rm -rf $home/candishell`;
+cleanup;
 print( "${cyan}Run source ~/.zshrc to update$end" );
