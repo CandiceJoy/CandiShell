@@ -209,12 +209,15 @@ if command -v git; then
 
 	GPG_BINARY=$(command -v gpg)
 
-	if [ "$GPG_BINARY" ]; then	
-		if [[ $(gpg --list-keys --keyid-format=long |grep $GPG_KEY_ID) ]]; then
-			git config --global user.signingkey "$GPG_KEY_ID"
-			git config --global gpg.program "$GPG_BINARY"
-			git config --global commit.gpgsign true
-		fi
+	if [ "$GPG_BINARY" ] && [[ $(gpg --list-keys --keyid-format=long |grep $GPG_KEY_ID) ]]; then	
+		git config --global user.signingkey "$GPG_KEY_ID"
+		git config --global gpg.program "$GPG_BINARY"
+		git config --global commit.gpgsign true
+	else
+		echo "Error: GPG setup not found"
+		echo "GPG Binary: $GPG_BINARY"
+		echo "GPG Key ID: $GPG_KEY_ID"
+		echo "GPG Keys (Filtered): $(gpg --list-keys --keyid-format=long |grep $GPG_KEY_ID)"
 	fi
 
 	alias commit="git commit -a"
