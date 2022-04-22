@@ -206,13 +206,17 @@ if command -v git; then
 	git config --global user.email "candice@candicejoy.com"
 	git config --global user.name "CandiceJoy"
 
-	if [[ $(gpg --list-keys --keyid-format=long |grep $GPG_KEY_ID) ]]; then
-		git config --global user.signingkey "$GPG_KEY_ID"
-		alias commit="git commit -Sa"
-	else
-		alias commit="git commit -a"
+	GPG_BINARY=$(command -v gpg)
+
+	if [ "$GPG_BINARY" ]; then	
+		if [[ $(gpg --list-keys --keyid-format=long |grep $GPG_KEY_ID) ]]; then
+			git config --global user.signingkey "$GPG_KEY_ID"
+			git config --global gpg.program "$GPG_BINARY"
+			git config --global commit.gpgsign true
+		fi
 	fi
 
+	alias commit="git commit -a"
 	alias push="git push"
 	alias clone="git clone"
 	alias add="git add ."
