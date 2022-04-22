@@ -32,6 +32,8 @@ export ZSH_TMUX_TERM="tmux-256color"
 export ZSH_TMUX_UNICODE="true"
 export TERM="xterm-256color"
 export COLORTERM="truecolor"
+export TNS_ADMIN="/Users/candice/tns-admin"
+export GPG_KEY_ID="D51ABC8A5F5828DA"
 
 if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! command -v brew; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -203,7 +205,14 @@ fi
 if command -v git; then
 	git config --global user.email "candice@candicejoy.com"
 	git config --global user.name "CandiceJoy"
-	alias commit="git commit -a"
+
+	if [[ $(gpg --list-keys --keyid-format=long |grep $GPG_KEY_ID) ]]; then
+		git config --global user.signingkey "$GPG_KEY_ID"
+		alias commit="git commit -Sa"
+	else
+		alias commit="git commit -a"
+	fi
+
 	alias push="git push"
 	alias clone="git clone"
 	alias add="git add ."
