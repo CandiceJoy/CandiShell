@@ -34,6 +34,7 @@ export TERM="xterm-256color"
 export COLORTERM="truecolor"
 export TNS_ADMIN="/Users/candice/tns-admin"
 export GPG_KEY_ID="D51ABC8A5F5828DA"
+export GPG_TTY="$TTY"
 
 if [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && ! command -v brew; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
