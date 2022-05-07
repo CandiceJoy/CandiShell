@@ -159,6 +159,10 @@ if command -v nano; then
 	alias pico="nano"
 fi
 
+if command -v op; then
+	alias 1p="op"
+fi
+
 if [ -e "/Applications/Sublime Text.app/Contents/MacOS/sublime_text" ]; then
 	function sublime() {
 		"/Applications/Sublime Text.app/Contents/MacOS/sublime_text" $* &
@@ -213,6 +217,7 @@ if command -v git; then
 		git config --global user.signingkey "$GPG_KEY_ID"
 		git config --global gpg.program "$GPG_BINARY"
 		git config --global commit.gpgsign true
+		git config --global tag.forceSignAnnotated true
 	else
 		echo "Error: GPG setup not found"
 		echo "GPG Binary: $GPG_BINARY"
